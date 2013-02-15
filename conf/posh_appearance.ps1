@@ -1,19 +1,14 @@
 ﻿# PowerShell appearance
 
-function Prompt
-{
-    $promptString = "PS " + $(Get-Location) + ">"
-    # Custom color for Windows console
-    #if ( $Host.Name -eq "ConsoleHost" )
-    #{
-        Write-Host $promptString -NoNewline -ForegroundColor Yellow
-    #}
-    # Default color for the rest
-    #else
-    #{
-    #    Write-Host $promptString -NoNewline -ForegroundColor Yellow
-    #}
-    return " "
+# Set up a simple prompt, adding the git prompt parts inside git repos
+function prompt {
+    Write-Host($pwd) -nonewline        
+    # Git Prompt
+    if($Global:GitPromptSettings.EnablePromptStatus) {
+        $Global:GitStatus = Get-GitStatus
+        Write-GitStatus $GitStatus
+    }
+    return "> "
 }
 
 if ( $Host.Name -eq "ConsoleHost" )
