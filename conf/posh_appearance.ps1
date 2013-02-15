@@ -2,7 +2,7 @@
 
 # Set up a simple prompt, adding the git prompt parts inside git repos
 function prompt {
-    Write-Host($pwd) -nonewline        
+    Write-Host($pwd) -nonewline -ForegroundColor Yellow
     # Git Prompt
     if($Global:GitPromptSettings.EnablePromptStatus) {
         $Global:GitStatus = Get-GitStatus
