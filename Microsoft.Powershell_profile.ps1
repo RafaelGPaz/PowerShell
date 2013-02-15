@@ -11,3 +11,4 @@ Import-Module $posh_dir\modules\posh_git
 # Aliases
 . "$posh_dir\conf\posh_aliases.ps1"
 
+Enable-GitColors
