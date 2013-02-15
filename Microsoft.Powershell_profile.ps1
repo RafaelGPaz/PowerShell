@@ -1,6 +1,9 @@
+# Set variable for PowerShell directory
+$posh_dir = "$ENV:USERPROFILE\Documents\WindowsPowerShell"
+
 # Appearance
-. "$ENV:USERPROFILE\Documents\WindowsPowerShell\conf\posh_appearance.ps1"
+. "$posh_dir\conf\posh_appearance.ps1"
 # Aliases
-. "$ENV:USERPROFILE\Documents\WindowsPowerShell\conf\posh_aliases.ps1"
-# Load posh-git example profile
-. "$ENV:USERPROFILE\Documents\WindowsPowerShell\conf\posh-git\profile.example.ps1"
+. "$posh_dir\conf\posh_aliases.ps1"
+# Vendor
+. "$posh_dir\vendor\posh-git\profile.example.ps1"
