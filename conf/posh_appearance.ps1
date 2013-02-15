@@ -16,6 +16,8 @@ function Prompt
     return " "
 }
 
+if ( $Host.Name -eq "ConsoleHost" )
+{
 $rui = (Get-Host).UI.RawUI
 $rui.BackgroundColor = "DarkBlue"
 $rui.ForegroundColor = "White"
@@ -30,8 +32,6 @@ $pdata.DebugForegroundColor    = "Cyan"
 $pdata.DebugBackgroundColor    = "$bgcolor"
 $pdata.VerboseForegroundColor  = "Yellow"
 $pdata.VerboseBackgroundColor  = "$bgcolor"
-if ( $Host.Name -eq "ConsoleHost" )
-{
 $pdata.ProgressForegroundColor = "Yellow"
 $pdata.ProgressBackgroundColor = "Blue"
 }
