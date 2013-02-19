@@ -1,7 +1,5 @@
 ﻿Push-Location (Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
 
-Import-Module $posh_dir\modules\posh_git
-
 # Set up tab expansion and include git expansion
 function TabExpansion($line, $lastWord) {
     $lastBlock = [regex]::Split($line, '[|;]')[-1]
