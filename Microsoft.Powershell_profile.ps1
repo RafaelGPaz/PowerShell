@@ -4,9 +4,14 @@ $posh_dir = "$ENV:USERPROFILE\Documents\WindowsPowerShell"
 # Add defun directory to PowerShell path  
 $env:Path = $env:Path + ";$posh_dir\defun\"
 
+# Staff only for PoSH Console
+if ( $Host.Name -eq "ConsoleHost" )
+{
 # Import PowerTab module before PoshGit
 Import-Module PowerTab
 Import-Module PoshGit
+}
+
 
 # Appearance
 . "$posh_dir\conf\posh_appearance.ps1"
