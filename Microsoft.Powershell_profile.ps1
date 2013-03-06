@@ -12,6 +12,12 @@ Import-Module PowerTab
 Import-Module PoshGit
 }
 
+#Staff only for PoSH ISE
+if ( $Host.Name -eq "Windows PowerShell ISE Host")
+{
+Import-Module TabExpansion++
+}
+
 
 # Appearance
 . "$posh_dir\conf\posh_appearance.ps1"
