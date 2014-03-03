@@ -7,7 +7,7 @@ function ScheduledTaskTaskNameArgumentCompletion
 {
     [ArgumentCompleter(
         Parameter = 'TaskName',
-        Command = { Get-Command -Module ScheduledTasks -ParameterName TaskName },
+        Command = { Get-CommandWithParameter -Module ScheduledTasks -ParameterName TaskName },
         Description = 'Complete task names')]
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameter)
 
@@ -15,7 +15,7 @@ function ScheduledTaskTaskNameArgumentCompletion
         Sort-Object TaskName |
         ForEach-Object {
             New-CompletionResult $_.TaskName $_.Description
-        } 
+        }
 }
 
 
@@ -30,7 +30,7 @@ function ScheduledTaskTaskPathArgumentCompletion
         Parameter = 'TaskPath',
         Command = {
             # REVIEW: should Set-ScheduledTask be excluded?
-            Get-Command -Module ScheduledTasks -ParameterName TaskPath },
+            Get-CommandWithParameter -Module ScheduledTasks -ParameterName TaskPath },
         Description = 'Complete task path arguments for scheduled task cmdlets')]
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameter)
 
@@ -38,5 +38,5 @@ function ScheduledTaskTaskPathArgumentCompletion
         Sort-Object TaskPath |
         ForEach-Object {
             New-CompletionResult $_.TaskPath $_.Description
-        } 
+        }
 }
