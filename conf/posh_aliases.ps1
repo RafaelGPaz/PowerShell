@@ -38,6 +38,7 @@ function posh         {Start-Process 'powershell.exe' $args}
 function winscp       {& "C:\Program Files (x86)\WinSCP\WinSCP.exe" $args}
 function phs          {$file = $(Get-Item $args).FullName; & 'C:\Program Files (x86)\Adobe\Adobe Photoshop CS4\Photoshop.exe' $file}
 function sub          {Param ([Parameter(Mandatory=$false)]$openFile="$Params -new_console:s75V") Start-Process 'C:\Program Files\cmder\vendor\Sublime Text 3\sublime_text.exe' $openFile}
+function ecl          {Start-Process 'C:\Program Files\eclipse\eclipse.exe' $args}
 
 # Git 
 function ga  {git add}
