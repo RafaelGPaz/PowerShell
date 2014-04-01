@@ -17,6 +17,7 @@ function dc {Set-Location $dc}  # Documents
 function bx {Set-Location $bx}  # DropBox
 function hm {Set-Location $hm}  # Home
 function ss {Set-Location $ss}  # 360 Site Survey 
+function bin {Set-Location $vt\.archives\bin}  # bin directory 
 
 function touch {New-Item "$args" -ItemType File | Out-Null} 
 function mkdir {New-Item "$args" -ItemType Directory | Out-Null}
