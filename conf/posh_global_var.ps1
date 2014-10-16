@@ -10,5 +10,4 @@ $wp = "$hmm\Documents\WindowsPowerShell"      # Windows Powershell
 $dk = "$hmm\Desktop"                          # DesKtop
 $dw = "$hmm\Downloads"                        # DoWnloads
 $dc = "$hmm\Documents"                        # DoCuments
-$bx = "$hmm\Dropbox"                          # drop BoX
-
+$bx = "E:\Dropbox"                            # drop BoX
