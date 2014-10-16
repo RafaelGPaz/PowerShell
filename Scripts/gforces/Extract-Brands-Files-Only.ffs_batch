@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FreeFileSync XmlFormat="3" XmlType="BATCH">
+    <MainConfig>
+        <Comparison>
+            <Variant>TimeAndSize</Variant>
+            <Symlinks>Exclude</Symlinks>
+        </Comparison>
+        <SyncConfig>
+            <Variant>Mirror</Variant>
+            <CustomDirections>
+                <LeftOnly>right</LeftOnly>
+                <RightOnly>left</RightOnly>
+                <LeftNewer>right</LeftNewer>
+                <RightNewer>left</RightNewer>
+                <Different>none</Different>
+                <Conflict>none</Conflict>
+            </CustomDirections>
+            <DetectMovedFiles>false</DetectMovedFiles>
+            <DeletionPolicy>Permanent</DeletionPolicy>
+            <VersioningFolder Style="Replace"/>
+        </SyncConfig>
+        <GlobalFilter>
+            <Include>
+                <Item>\*</Item>
+                <Item/>
+                <Item/>
+            </Include>
+            <Exclude>
+                <Item>\.archives</Item>
+                <Item>\.backcomp\</Item>
+                <Item>\.brand_files_only</Item>
+                <Item>\.no_scenes</Item>
+                <Item>\.src</Item>
+                <Item>*\tour.js</Item>
+                <Item>*\tour.swf</Item>
+                <Item>*\devel</Item>
+                <Item>*\include</Item>
+                <Item>*\scenes</Item>
+                <Item>*\tour.xml</Item>
+                <Item>*\tour_clean.xml</Item>
+                <Item>*\devel.xml</Item>
+                <Item>*\index.html</Item>
+                <Item>*\style.css</Item>
+                <Item>*\editor.swf</Item>
+                <Item>*\gyro.js</Item>
+                <Item>*\options.swf</Item>
+                <Item>*\swfaddress.js</Item>
+                <Item>*\textfield.swf</Item>
+                <Item>*\coord.xml</Item>
+                <Item>*\items.xml</Item>
+                <Item>*\panolist.xml</Item>
+            </Exclude>
+            <TimeSpan Type="None">0</TimeSpan>
+            <SizeMin Unit="None">0</SizeMin>
+            <SizeMax Unit="None">0</SizeMax>
+        </GlobalFilter>
+        <FolderPairs>
+            <Pair>
+                <Left>E:\virtual_tours\gforces\allcars</Left>
+                <Right>E:\virtual_tours\gforces\allcars\.brand_files_only</Right>
+            </Pair>
+        </FolderPairs>
+        <OnCompletion>Close progress dialog</OnCompletion>
+    </MainConfig>
+    <BatchConfig>
+        <HandleError>Popup</HandleError>
+        <RunMinimized>false</RunMinimized>
+        <LogfileFolder Limit="-1"/>
+    </BatchConfig>
+</FreeFileSync>
