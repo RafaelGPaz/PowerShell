@@ -1,17 +1,14 @@
 ﻿<#
 .Synopsis
-   Short description
+   Command line tool to quickly create avirtual tour using a custom config file
 .DESCRIPTION
-   Long description
+   Navigate to the folder containing the pano image
+   Run command.
+   Select the config file
 .EXAMPLE
    Example of how to use this cmdlet
-.EXAMPLE
-   Another example of how to use this cmdlet
 #>
-
-Clear-Host
-
-function Test-Myfunction
+function Verb-Noun
 {
     [CmdletBinding()]
     [OutputType([int])]
@@ -30,17 +27,12 @@ function Test-Myfunction
 
     Begin
     {
-    Write-Host ahaha
     }
     Process
     {
-    Write-Host heheheh
+    .\krpanotools64.exe makepano -config="..\krpano_conf\templates\tv_8192px_cube.config" ..\output\pano1.jpg
     }
     End
     {
-
-    Write-Host hihihih
     }
 }
-
-Test-Myfunction

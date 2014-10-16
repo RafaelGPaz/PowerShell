@@ -2,9 +2,10 @@
 .Synopsis
    Create virtual tour tiles using Krpano-tools
 .DESCRIPTION
-    Create virtual tour tiles using Krpano-tools. Depending on the project there are two options:
-    1- all: 2 levels, tilesize=902
-    2- sitesurvey: 2 levels, tilesize=756
+    There are three options:
+    1- 2 Levels: tilesize=902, 2 levels
+    2- 3 Levels: tilesize=902, 3 levels
+    2- Site Survey: tilesize=756, 2 levels
 .EXAMPLE
    Run from the same directory containing the folder '.src'
 #>
@@ -33,8 +34,7 @@ function run-krpano {
         Set-Content $xmlfile
 }
 
-function make-normaltiles {
-    $krconfig = "-config=$krdir\krpano_conf\templates\tv_tiles_2_levels_all_devices.config"
+function make-tiles {
     # Check panos directory is not empty
     if ($(Get-ChildItem .\.src\panos\) -eq $null) { Write-Warning ".src\panos\ directory doesn't contain any folder "; break  }
     foreach ( $tour in dir ".\.src\panos\" ) {
@@ -43,13 +43,12 @@ function make-normaltiles {
         if ($(Get-ChildItem .\.src\panos\$tour\*.jpg) -eq $null) { Write-Warning ".src\panos\ doesn't contain any panoramas "; break } 
         foreach ( $panoname in $(dir ".\.src\panos\$tour\*.jpg").BaseName |
         # The first RegEx removes all the numbers and then sorts the list based on just the letters and punctuation.
-        # The second RegEx removes all letters and punctuation leaving just the numbers
+        # The second RegEx removes all letters and punctuation leaving just the numbers.
         # Then casts the numbers to an Integer and sorts again.
-        sort-object -Property {$_-replace '[\d]'},{$_-replace '[a-zA-Z\p{P}]'-as [int]} ) { 
+        Sort-Object -Property {$_-replace '[\d]'},{$_-replace '[a-zA-Z\p{P}]'-as [int]} ) { 
             $panopath = Get-Item ".\.src\panos\$tour\$panoname.jpg"
-            # Check if there is a folder containing the scene tiles
-            #$panoname = [io.path]::GetFileNameWithoutExtension("$panopath")
-            if((Test-Path -PathType Container ".\$tour\files\scenes\$panoname") -eq $True)
+            # Check if there is a folder containing the scene tiles AND it's corresponding xml file
+            if((Test-Path -PathType Container ".\$tour\files\scenes\$panoname") -eq $True -and (Test-Path ".\$tour\files\scenes\$panoname.xml"))
             {
                 Write-Verbose ('  [ OK ] ' + $panoname)
             }
@@ -77,7 +76,18 @@ function make-normaltiles {
     }
 }
 
-function make-sitesurveyties {
+
+function make-twolevels {
+    $krconfig = "-config=$krdir\krpano_conf\templates\tv_tiles_2_levels_all_devices.config"
+    make-tiles
+}
+
+function make-threelevels {
+    $krconfig = "-config=$krdir\krpano_conf\templates\tv_tiles_for_cars_ipad.config"
+    make-tiles
+}
+
+function make-sitesurvey {
     $krconfig = "-config=$krdir\krpano_conf\templates\tv_tiles_2_levels_360sitesurvey.config"
     # Check panos directory is not empty
     if ($(Get-ChildItem .\.src\panos\) -eq $null) { Write-Warning ".src\panos\ directory doesn't contain any folder "; break  }
@@ -91,11 +101,12 @@ function make-sitesurveyties {
             Write-Verbose ('  Area: ' + $area)
             foreach ( $panoname in $(dir ".\.src\panos\$tour\$area\*.jpg").BaseName |
             # The first RegEx removes all the numbers and then sorts the list based on just the letters and punctuation.
-            # The second RegEx removes all letters and punctuation leaving just the numbers
+            # The second RegEx removes all letters and punctuation leaving just the numbers.
             # Then casts the numbers to an Integer and sorts again.
             sort-object -Property {$_-replace '[\d]'},{$_-replace '[a-zA-Z\p{P}]'-as [int]} ) { 
                 $panopath = Get-Item ".\.src\panos\$tour\$area\$panoname.jpg"
-                if((Test-Path -PathType Container "files\sets\$tour\$area\$panoname") -eq $True){
+                if((Test-Path -PathType Container ".\files\sets\$tour\$area\$panoname") -eq $True -and (Test-Path ".\files\sets\$tour\$area\$panoname.xml"))
+                {
                     write-Verbose ('    [ OK ] ' + $panoname)
                 }
                 else 
@@ -135,18 +146,22 @@ if((Test-Path -PathType Container .\.src\panos) -eq $false) { Write-Warning ".sr
 $title = "Virtual tour type"
 $message = "Choose which virtuar tour type you want to crate the tiles:"
 
-$one = New-Object System.Management.Automation.Host.ChoiceDescription "&Normal", `
-    "Normal"
+$one = New-Object System.Management.Automation.Host.ChoiceDescription "&2 Levels", `
+    "2 Levels"
 
-$two = New-Object System.Management.Automation.Host.ChoiceDescription "&Site Survey", `
-    "Site Survey"
+$two = New-Object System.Management.Automation.Host.ChoiceDescription "&3 Levels", `
+    "3 Levels"
 
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($one, $two)
+$three = New-Object System.Management.Automation.Host.ChoiceDescription "&Site Survey", `
+    "Site Servey"
 
-$result = $host.ui.PromptForChoice($title, $message, $options, 0) 
+$options = [System.Management.Automation.Host.ChoiceDescription[]]($one, $two, $three)
+
+$result = $host.ui.PromptForChoice($title, $message, $options, 1) 
     
 Switch( $result ){
-    0{ make-normaltiles }
-    1{ make-sitesurveyties }
+    0{ make-twolevels }
+    1{ make-threelevels }
+    2{ make-sitesurvey }
 }
 Write-Verbose "EOF"

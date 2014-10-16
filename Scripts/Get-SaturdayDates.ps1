@@ -7,7 +7,7 @@
     # For each day in each month
     (1..$no_days) | foreach {
         $day = $_ 
-        $date = $(get-date $day/$month/2013)
+        $date = $(get-date $day/$month/2014)
         # If it's Saturday
         if ($date.DayOfWeek -eq "Saturday") {
             write-host "  " $date.tostring("yyyy-MM-dd")
