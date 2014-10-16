@@ -18,14 +18,25 @@ Prompt formatting, among other things, can be customized using `$GitPromptSettin
 
 Note on performance: displaying file status in the git prompt for a very large repo can be prohibitively slow. Rather than turn off file status entirely, you can disable it on a repo-by-repo basis by adding individual repository paths to $GitPromptSettings.RepositoriesInWhichToDisableFileStatus.
 
-Installing
-----------
+Installing via PsGet
+--------------------
+
+If you have [PsGet](http://psget.net/) installed just run:
+
+```
+Install-Module posh-git
+```
+
+Installing (manual)
+-------------------
 
 0. Verify you have PowerShell 2.0 or better with $PSVersionTable.PSVersion
 
 1. Verify execution of scripts is allowed with `Get-ExecutionPolicy` (should be `RemoteSigned` or `Unrestricted`). If scripts are not enabled, run PowerShell as Administrator and call `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Confirm`.
 
-2. Verify that `git` can be run from PowerShell. If the command is not found, you will need to add a git alias or add `%ProgramFiles%\Git\cmd` to your PATH environment variable.
+2. Verify that `git` can be run from PowerShell.
+   If the command is not found, you will need to add a git alias or add `%ProgramFiles(x86)%\Git\cmd`
+   (or `%ProgramFiles%\Git\cmd` if you're still on 32-bit) to your PATH environment variable.
 
 3. Clone the posh-git repository to your local machine.
 
@@ -42,7 +53,7 @@ PowerShell generates its prompt by executing a `prompt` function, if one exists.
 
 By default, the status summary has the following format:
 
-    [{HEAD-name} +A ~B -C !D | +E ~F -G !H]
+    [{HEAD-name} +A ~B -C !D | +E ~F -G !H !]
 
 * `{HEAD-name}` is the current branch, or the SHA of a detached HEAD
  * Cyan means the branch matches its remote
@@ -55,6 +66,7 @@ By default, the status summary has the following format:
  * `-` = Removed files
  * `!` = Conflicted files
  * As in `git status`, index status is dark green and working directory status is dark red
+ * The trailing `!` means there are untracked files
 
 For example, a status of `[master +0 ~2 -1 | +1 ~1 -0]` corresponds to the following `git status`:
 
