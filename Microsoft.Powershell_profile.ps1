@@ -1,35 +1,50 @@
 # Set variable for PowerShell directory
 $posh_dir = "$ENV:USERPROFILE\Documents\WindowsPowerShell"
 
-# Add defun directory to PowerShell path  
-$env:Path = $env:Path + ";$posh_dir\defun\"
-$env:Path = $env:Path + ";$posh_dir\defun\newvt\"
-$env:Path = $env:Path + ";$posh_dir\defun\newvt\lib\"
+#--------
+# PATH
+#--------
+# Apps
+$CCleaner = "$env:ProgramW6432\CCleaner\"
+$Chrome = "${env:ProgramFiles(x86)}\Google\Chrome\Application\"
+$CloudBerry = "$env:ProgramW6432\CloudBerryLab\CloudBerry Explorer for Amazon S3\"
+$Defraggler = "$env:ProgramW6432\Defraggler\"
+$Dropbox = "$env:APPDATA\Dropbox\bin\"
+$Eclipse = "$env:ProgramW6432\eclipse\"
+$Filezilla = "${env:ProgramFiles(x86)}\FileZilla FTP Client\"
+$Firefox = "${env:ProgramFiles(x86)}\Mozilla Firefox\"
+$IE = "$env:ProgramW6432\Internet Explorer\"
+$Inkscape = "${env:ProgramFiles(x86)}\Inkscape\"
+$Kitty = "$env:ProgramW6432\KiTTY\"
+$Putty = "$env:ProgramW6432\PuTTY\"
+# Posh
+$ScriptsDir = "$(split-path $PROFILE)\Scripts\"
+$GforcesDir = "$(split-path $PROFILE)\Scripts\gforces\"
 
-# Staff only for PoSH Console
-if ( $Host.Name -eq "ConsoleHost" )
-{
-#PoshGit already imports it's own PowerTab module
-Import-Module PowerTab
-#Import-Module Posh-Git
-Import-Module PsGet
-Import-TabExpansionTheme Digital
+$env:path += ";$CCleaner;$Chrome;$CloudBerry;$Defraggler;$Dropbox;$Eclipse;$Filezilla;$Firefox;$IE;$Inkscape;$Kitty;$Putty;$ScriptsDir;$GforcesDir"
+
+# Staff only for Terminal
+if ( $Host.Name -eq "ConsoleHost" ) {
+    Import-Module PSReadline
+        Set-PSReadlineOption -EditMode Emacs
 }
 
-#Staff only for PoSH ISE
-if ( $Host.Name -eq "Windows PowerShell ISE Host")
-{
+#Staff only for ISE Console
+#if ( $Host.Name -eq "Windows PowerShell ISE Host")
+#{
+#}
+
 Import-Module TabExpansion++
-Import-Module PsGet
-}
+Import-Module Go
+Import-Module New-Tour
+Import-Module Reset-Module
+
+# Start in my Home directory
+cd C:\Users\Rafael
 
 # Appearance
-. "$posh_dir\conf\posh_appearance.ps1"
+. "$(split-path $PROFILE)\Conf\posh_appearance.ps1"
 # Aliases
-. "$posh_dir\conf\posh_aliases.ps1"
-# Global Variables
-. "$posh_dir\conf\posh_global_var.ps1"
-# Vim
-. "$posh_dir\conf\posh_vim.ps1"
-# Emacs
-. "$posh_dir\conf\posh_emacs.ps1"
+. "$(split-path $PROFILE)\Conf\posh_aliases.ps1"
+# Funtions
+. "$(split-path $PROFILE)\Conf\posh_defun.ps1"
