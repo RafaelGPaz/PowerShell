@@ -1,23 +1,23 @@
 ﻿# PowerShell appearance
 
-# Set up a simple prompt (not in PowerGUI) showing the current directory
-if ( $Host.Name -ne "PowerGUIScriptEditorHost" )
-{
-	function prompt {
-	    Write-Host PS ($pwd) -nonewline -ForegroundColor Green
-	    # Git Prompt
-	    if($Global:GitPromptSettings.EnablePromptStatus) {
-	        $Global:GitStatus = Get-GitStatus
-	        Write-GitStatus $GitStatus
-	    }
-	    return "> "
+# Set up a simple prompt showing the current directory
+function prompt {
+    if ( $Host.Name -eq "ConsoleHost" ) {
+	    Write-Host PS ($pwd) -nonewline -ForegroundColor Cyan
+    }
+    if ( $Host.Name -eq "Windows PowerShell ISE Host" ) {
+	    Write-Host PS ($pwd) -nonewline -ForegroundColor Magenta
+    }
+	# Git Prompt
+	if($Global:GitPromptSettings.EnablePromptStatus) {
+	    $Global:GitStatus = Get-GitStatus
+	    Write-GitStatus $GitStatus
 	}
+	return " > "
 }
 
 # Set Terminal colors
-if ( $Host.Name -eq "ConsoleHost" )
-{
-
+if ( $Host.Name -eq "ConsoleHost" ) {
 $bgcolor = "Black"
 
 $rui = (Get-Host).UI.RawUI
