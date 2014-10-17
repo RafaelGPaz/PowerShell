@@ -587,3 +587,15 @@ function fix-renault {
     }
     Write-Verbose 'Backward compatibility applied to Renault' -Verbose
 }
+
+function fix-chevrolet-left {
+    # Change html5:"prefer" to html5:"fallback" in all the cars HTML files
+    Get-ChildItem $dir\chevrolet_left\ -Recurse -Filter "*.html" -Exclude "index.html","brand.html","more_brands.html" |
+    foreach {
+        Get-Content $_.FullName |
+            foreach { ($_).replace('html5:"prefer"','html5:"fallback"') } |
+                Set-Content "$($_.FullName).temp"
+            Move-Item -Force "$($_.FullName).temp" $_.FullName
+    }
+    Write-Verbose 'Fix applied to Chevrolet Left' -Verbose
+}

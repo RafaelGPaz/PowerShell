@@ -82,6 +82,7 @@ function Start-Script {
     if ($tour.id -eq "mercedes_benz") { fix-mercedes }
     if ($tour.id -eq "ford") { fix-ford }
     if ($tour.id -eq "renault") { fix-renault }
+    if ($tour.id -eq "chevrolet_left") { fix-chevrolet-left }
     } | select @{n="Total Time";e={$_.Minutes,"minutes",$_.Seconds,"seconds" -join " "}}
     #Write-Verbose 'EOF' -Verbose
 
