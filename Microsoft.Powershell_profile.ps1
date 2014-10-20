@@ -38,6 +38,7 @@ Import-Module TabExpansion++
 Import-Module Go
 Import-Module New-Tour
 Import-Module Reset-Module
+Import-Module z
 
 # Start in my Home directory
 cd C:\Users\Rafael
