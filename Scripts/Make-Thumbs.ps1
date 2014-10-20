@@ -16,7 +16,7 @@ foreach ( $img_in in dir $all_img ) {
     $check_thumb = Test-path -PathType Leaf thumbs\$img_out
     if($check_thumb -eq $false) {   
         write-host "[ info ] Creating thumb: $img_out ..." -ForegroundColor Blue
-        Invoke-Expression "convert $img_in -resize 420x210^ -gravity center -extent 200x120 thumbs\$img_out"
+        Invoke-Expression "C:\'Program Files (x86)'\ImageMagick-6.8.9-Q16\convert.exe $img_in -resize 420x210^ -gravity center -extent 200x120 thumbs\$img_out"
         write-host "[  ok ] $img_out" -ForegroundColor Green
     }
     else {
