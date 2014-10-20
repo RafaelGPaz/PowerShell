@@ -1,6 +1,9 @@
-﻿# Make-Thumbs.ps1
-# It creates 'thumbs' directory if it doesn't exists
-# It creates a thumbnail for every jpg file in the current directory, if it doesn't exist inside 'thumbs' directory.
+﻿<#
+.DESCRIPTION
+ Creates thumbnails to use by the scroll feature (420 x 210)
+ IMPORTANT: Go to the directory where all the jpg files are before running the script
+ The output folder is scroll_panos
+#>
 
 Clear-Host
 
