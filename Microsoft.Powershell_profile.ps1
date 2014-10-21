@@ -26,7 +26,8 @@ $env:path += ";$CCleaner;$Chrome;$CloudBerry;$Defraggler;$Dropbox;$Eclipse;$File
 # Staff only for Terminal
 if ( $Host.Name -eq "ConsoleHost" ) {
     Import-Module PSReadline
-        Set-PSReadlineOption -EditMode Emacs
+    Set-PSReadlineOption -EditMode Emacs
+    Import-Module posh-git
 }
 
 #Staff only for ISE Console
