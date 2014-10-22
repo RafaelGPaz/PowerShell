@@ -36,11 +36,11 @@ function run-krpano {
 
 function make-tiles {
     # Check panos directory is not empty
-    if ($(Get-ChildItem .\.src\panos\) -eq $null) { Write-Warning ".src\panos\ directory doesn't contain any folder "; break  }
+    if ($(Get-ChildItem .\.src\panos\) -eq $null) { Throw ".src\panos\ directory doesn't contain any folder" }
     foreach ( $tour in dir ".\.src\panos\" ) {
         Write-Verbose ('Tour: ' + $tour)
         # Check if the tour folder contains any jpg files
-        if ($(Get-ChildItem .\.src\panos\$tour\*.jpg) -eq $null) { Write-Warning ".src\panos\ doesn't contain any panoramas "; break } 
+        if ($(Get-ChildItem .\.src\panos\$tour\*.jpg) -eq $null) { Throw ".src\panos\ doesn't contain any panoramas" } 
         foreach ( $panoname in $(dir ".\.src\panos\$tour\*.jpg").BaseName |
         # The first RegEx removes all the numbers and then sorts the list based on just the letters and punctuation.
         # The second RegEx removes all letters and punctuation leaving just the numbers.
@@ -90,14 +90,14 @@ function make-threelevels {
 function make-sitesurvey {
     $krconfig = "-config=$krdir\krpano_conf\templates\tv_tiles_2_levels_360sitesurvey.config"
     # Check panos directory is not empty
-    if ($(Get-ChildItem .\.src\panos\) -eq $null) { Write-Warning ".src\panos\ directory doesn't contain any folder "; break  }
+    if ($(Get-ChildItem .\.src\panos\) -eq $null) { Throw ".src\panos\ directory doesn't contain any folder" }
     foreach ( $tour in dir ".\.src\panos\" ) {
         # Check tour directory is not empty
-        if ($(Get-ChildItem .\.src\panos\$tour) -eq $null) { Write-Warning ".src\panos\ directory doesn't contain any folder "; break  }
+        if ($(Get-ChildItem .\.src\panos\$tour) -eq $null) { Throw ".src\panos\ directory doesn't contain any folder" }
         Write-Verbose ('Tour: ' + $tour)
         foreach ( $area in dir ".\.src\panos\$tour\" ) { 
             # Check if the area folder contains any jpg files
-            if ($(Get-ChildItem .\.src\panos\$tour\$area\*.jpg) -eq $null) { Write-Warning ".src\panos\ doesn't contain any panoramas "; break } 
+            if ($(Get-ChildItem .\.src\panos\$tour\$area\*.jpg) -eq $null) { Throw ".src\panos\ doesn't contain any panoramas " } 
             Write-Verbose ('  Area: ' + $area)
             foreach ( $panoname in $(dir ".\.src\panos\$tour\$area\*.jpg").BaseName |
             # The first RegEx removes all the numbers and then sorts the list based on just the letters and punctuation.
@@ -139,8 +139,8 @@ Clear-Host
 $krdir = "E:\documents\software\virtual_tours\krpano"
 $krpath = "$krdir\bin\krpanotools64.exe makepano"
 
-if((Test-Path -PathType Container .src) -eq $false) { Write-Warning ".src\ folder doesn't exist "; break }
-if((Test-Path -PathType Container .\.src\panos) -eq $false) { Write-Warning ".src\panos folder doesn't exist "; break }
+if((Test-Path -PathType Container .src) -eq $false) { Throw ".src\ folder doesn't exist" }
+if((Test-Path -PathType Container .\.src\panos) -eq $false) { Throw ".src\panos folder doesn't exist" }
 
 # Choose config file    
 $title = "Virtual tour type"
