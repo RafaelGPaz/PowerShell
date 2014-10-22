@@ -82,7 +82,7 @@ foreach ($tourItem in $tour) {
     foreach $_ {($_).replace('./style.css','../style.css')} |
     foreach $_ {($_).replace('<h1>Virtual Tours List</h1>','<h1><a href="../index.html">Virtual Tours List</a></h1>')} |
     foreach $_ {($_).replace('<div class="logo"></div>','<a href="../index.html"><div class="logo"></div></a>')} |
-    foreach $_ {($_).replace('./banner.jpg','../banner.jpg')} |
+    foreach $_ {($_).replace('"./images','"../images')} |
     Where-Object {$_ -notmatch '<h1>'} |
     Set-Content ".\$($tourItem.id)\list.html"
 }
