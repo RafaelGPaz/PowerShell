@@ -32,7 +32,7 @@ if (!(Test-Path "$tourXml")) {
 [xml]$sourceTour = Get-Content $tourXml
 $tour = $sourceTour.vt.tour
 Write-Verbose "[ OK ] Adding index.html"
-if (!(Test-Path ".\.src\html")) {touch ".\.src\html"}
+if (!(Test-Path ".\.src\html")) {mkdir ".\.src\html"}
 # CSS
 if(!(Test-Path ".\.src\html\style.css")) {
     Copy-Item "E:\virtual_tours\.archives\bin\newvt\src\generate_html\style.css" ".\.src\html\"
