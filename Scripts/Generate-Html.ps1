@@ -61,6 +61,7 @@ Set-Content ".\index.html"
 
 # list.html
 foreach ($tourItem in $tour) {
+    Write-Verbose "[ OK ] Adding list.html for $($tourItem.id)"
     Get-Content ".\.src\html\index-template.html" | 
         foreach $_ {
             if ($_ -cmatch 'CONTENT' ) {
