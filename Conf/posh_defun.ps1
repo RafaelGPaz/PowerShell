@@ -23,7 +23,7 @@ function gdc {git diff --cached}
 function gil {git log --pretty=format:"%h %ad | %s%d" --graph --date=short }
 function gll {git log --pretty=oneline}
 function gm  {git commit -m}
-function gma {git commit -am "$args"}
+function gam {git commit -am "$args"}
 function gp  {git push}
 function gpu {git pull}
 function gra {git remote add}
