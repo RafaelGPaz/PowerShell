@@ -4,25 +4,26 @@ $posh_dir = "$ENV:USERPROFILE\Documents\WindowsPowerShell"
 #--------
 # PATH
 #--------
-# Apps
-$CCleaner = "$env:ProgramW6432\CCleaner\"
-$Chrome = "${env:ProgramFiles(x86)}\Google\Chrome\Application\"
-$CloudBerry = "$env:ProgramW6432\CloudBerryLab\CloudBerry Explorer for Amazon S3\"
-$Defraggler = "$env:ProgramW6432\Defraggler\"
-$Dropbox = "$env:APPDATA\Dropbox\bin\"
-$Eclipse = "$env:ProgramW6432\eclipse\"
-$Filezilla = "${env:ProgramFiles(x86)}\FileZilla FTP Client\"
-$Firefox = "${env:ProgramFiles(x86)}\Mozilla Firefox\"
-$IE = "$env:ProgramW6432\Internet Explorer\"
-$Inkscape = "${env:ProgramFiles(x86)}\Inkscape\"
-$Kitty = "$env:ProgramW6432\KiTTY\"
-$Putty = "$env:ProgramW6432\PuTTY\"
-$Thunderbird = "${env:ProgramFiles(x86)}\Mozilla Thunderbird"
-# Posh
-$ScriptsDir = "$(split-path $PROFILE)\Scripts\"
-$GforcesDir = "$(split-path $PROFILE)\Scripts\gforces\"
+$pathArray = @(
+    # Apps
+    "$env:APPDATA\Dropbox\bin\",
+    "$env:ProgramW6432\CCleaner\",
+    "$env:ProgramW6432\CloudBerryLab\CloudBerry Explorer for Amazon S3\",
+    "$env:ProgramW6432\Defraggler\",
+    "$env:ProgramW6432\eclipse\",
+    "$env:ProgramW6432\Internet Explorer\",
+    "$env:ProgramW6432\KiTTY\",
+    "$env:ProgramW6432\PuTTY\",
+    "${env:ProgramFiles(x86)}\Google\Chrome\Application\",
+    "${env:ProgramFiles(x86)}\FileZilla FTP Client\",
+    "${env:ProgramFiles(x86)}\Mozilla Firefox\",
+    "${env:ProgramFiles(x86)}\Inkscape\",
+    "${env:ProgramFiles(x86)}\Mozilla Thunderbird",
+    # Posh
+    "$(split-path $PROFILE)\Scripts\",
+    "$(split-path $PROFILE)\Scripts\gforces\")
 
-$env:path += ";$CCleaner;$Chrome;$CloudBerry;$Defraggler;$Dropbox;$Eclipse;$Filezilla;$Firefox;$IE;$Inkscape;$Kitty;$Putty;$Thunderbird;$ScriptsDir;$GforcesDir"
+foreach ($item in $pathArray) { $env:path += ';' + $item }
 
 # Staff only for Terminal
 if ( $Host.Name -eq "ConsoleHost" ) {
