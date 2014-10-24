@@ -17,11 +17,12 @@ $IE = "$env:ProgramW6432\Internet Explorer\"
 $Inkscape = "${env:ProgramFiles(x86)}\Inkscape\"
 $Kitty = "$env:ProgramW6432\KiTTY\"
 $Putty = "$env:ProgramW6432\PuTTY\"
+$Thunderbird = "${env:ProgramFiles(x86)}\Mozilla Thunderbird"
 # Posh
 $ScriptsDir = "$(split-path $PROFILE)\Scripts\"
 $GforcesDir = "$(split-path $PROFILE)\Scripts\gforces\"
 
-$env:path += ";$CCleaner;$Chrome;$CloudBerry;$Defraggler;$Dropbox;$Eclipse;$Filezilla;$Firefox;$IE;$Inkscape;$Kitty;$Putty;$ScriptsDir;$GforcesDir"
+$env:path += ";$CCleaner;$Chrome;$CloudBerry;$Defraggler;$Dropbox;$Eclipse;$Filezilla;$Firefox;$IE;$Inkscape;$Kitty;$Putty;$Thunderbird;$ScriptsDir;$GforcesDir"
 
 # Staff only for Terminal
 if ( $Host.Name -eq "ConsoleHost" ) {
