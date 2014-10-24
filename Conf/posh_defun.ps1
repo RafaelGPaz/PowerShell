@@ -16,7 +16,7 @@ function vim   { & ${env:ProgramFiles(x86)}\Vim\vim74\vim.exe --remote-silent  $
 function ga  {git add}
 function gap {git add -p}
 function gb  {git branch -a -v}
-function gc  { if (!("$1")) { git checkout master } else { git checkout $1 } fi }
+function gch { if (!("$args")) { git checkout master } else { git checkout $args } }
 function gcl {git clone}
 function gd  {git diff}
 function gdc {git diff --cached}
