@@ -20,7 +20,7 @@ function gc  { if (!("$1")) { git checkout master } else { git checkout $1 } fi 
 function gcl {git clone}
 function gd  {git diff}
 function gdc {git diff --cached}
-function gil {git log --pretty=format:"%h %ad | %s%d" --graph --date=short }
+function gil {git log --pretty=oneline --date=short --decorate --graph --abbrev-commit }
 function gll {git log --pretty=oneline}
 function gm  {git commit -m}
 function gam {git commit -am "$args"}
