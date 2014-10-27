@@ -3,6 +3,8 @@
 # Set up a simple prompt showing the current directory
 function prompt {
     if ( $Host.Name -eq "ConsoleHost" ) {
+        # Rename tab with the name of the current directory
+        & "$env:ConEmuBaseDir\ConEmuC.exe" "/GUIMACRO", 'Rename(0,@"'$(get-item $PWD).BaseName'")' > $null
 	    Write-Host PS ($pwd) -nonewline -ForegroundColor Cyan
     }
     if ( $Host.Name -eq "Windows PowerShell ISE Host" ) {
