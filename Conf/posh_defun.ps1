@@ -7,10 +7,10 @@ function mkdir {New-Item "$args" -ItemType Directory | Out-Null}
 # APPLICATIONS
 function pho   { & "$env:ProgramW6432\Adobe\Adobe Photoshop CS6 (64 Bit)\Photoshop.exe" $(Resolve-Path $args[0]) }
 function irf   { & ${env:ProgramFiles(x86)}\IrfanView\i_view32.exe $(Resolve-Path $args[0]) }
-function emacs { & C:\emacs\bin\runemacs.exe $args} # Use this to open Emacs the first time. Then it will run as a server
-function em    { & C:\emacs\bin\emacsclientw.exe -na C:\emacs\bin\runemacs.exe $args }
-function emq   { & C:\emacs\bin\emacs.exe --quick $args } 
-function vim   { & ${env:ProgramFiles(x86)}\Vim\vim74\vim.exe --remote-silent  $args }
+function emacs { Start-Process -Verb runAs "C:\emacs\bin\runemacs.exe $args" } # Use this to open Emacs the first time. Then it will run as a server
+function em    { Start-Process -Verb runAs "C:\emacs\bin\emacsclientw.exe -na C:\emacs\bin\runemacs.exe $args" }
+function emq   { Start-Process -Verb runAs "C:\emacs\bin\emacs.exe --quick $args" }
+function vim   { Start-Process -Verb runAs "${env:ProgramFiles(x86)}\Vim\vim74\vim.exe --remote-silent  $args" }
 
 # GIT 
 function ga  {git add}
