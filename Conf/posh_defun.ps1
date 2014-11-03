@@ -22,7 +22,7 @@ function gd  {git diff}
 function gdc {git diff --cached}
 function gil {git log --pretty=oneline --date=short --decorate --graph --abbrev-commit $args }
 function gll {git log --pretty=oneline $args }
-function gco {git commit -m}
+function gco {git commit -m "$args"}
 function gam {git commit -am "$args"}
 function gus {git push}
 function gul {git pull}
