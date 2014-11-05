@@ -28,7 +28,7 @@ $dir = get-item "E:\virtual_tours\gforces\allcars"
 $config = Join-Path $dir \.src\config.xml
 
 # Krpano version number
-$krver = '1.17'
+$krver = '1.18'
 
 # Inclide files
 . C:\Users\rafael\Documents\WindowsPowerShell\scripts\gforces\Functions.ps1
