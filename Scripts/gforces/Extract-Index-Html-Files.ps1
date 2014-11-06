@@ -25,6 +25,7 @@ function Start-Script {
     Write-Verbose "Editing First Level"
     Get-ChildItem "$allHtmlCopy" -File -Filter *.html | 
         foreach {
+            Write-Verbose " --> $($_.Name)"
             if ($_.BaseName -ne "index" -and $_.BaseName -ne "brand" -and $_.BaseName -ne "more_brands") {
                 Remove-Item $_.FullName
                 #Write-Verbose "Delete $($_.Name)"
@@ -43,7 +44,7 @@ function Start-Script {
     Write-Verbose "Editing Second Level"
     Get-ChildItem $allHtmlCopy -Directory |
         foreach {
-            Write-Verbose "--> $($_.BaseName)"
+            Write-Verbose "--> --> $($_.BaseName)"
             Get-ChildItem $_.FullName -File -Filter *.html | 
             foreach {
                 if ($_.BaseName -ne "index" -and $_.BaseName -ne "brand" -and $_.BaseName -ne "more_brands") {
@@ -67,7 +68,7 @@ function Start-Script {
             $dir = $_.BaseName
             Get-ChildItem $_.FullName -Directory |
             foreach {
-            Write-Verbose "--> --> $($_.BaseName)"
+            Write-Verbose "--> --> --> $($_.BaseName)"
             Get-ChildItem $_.FullName -File -Filter *.html | 
                 foreach {
                     #if ($_.BaseName -ne "index" -and $_.BaseName -ne "brand" -and $_.BaseName -ne "more_brands") {
