@@ -24,7 +24,7 @@ $ErrorActionPreference = "Stop"
 Clear-Host
 
 # All the files are relative to this script path
-$dir = get-item "E:\virtual_tours\gforces\allcars"
+$dir = get-item "."
 $config = Join-Path $dir \.src\config.xml
 
 # Krpano version number

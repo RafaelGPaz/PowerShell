@@ -12,14 +12,14 @@ Param
 function Start-Script {
     measure-command {
     Write-Verbose "Starting..."
-    $allHtml = 'E:\virtual_tours\gforces\allcars\.html_files_only\'
-    $allHtmlCopy  = 'E:\virtual_tours\gforces\allcars\.index_html_files_only\'
+    $allHtml = '.\.html_files_only\'
+    $allHtmlCopy  = '.\.index_html_files_only\'
     # Delete the destination folder to start fresh
     Write-Verbose "Delete folder content"
-    if (Test-Path $allHtmlCopy) { Remove-Item E:\virtual_tours\gforces\allcars\.index_html_files_only\* -Recurse -Force }
+    if (Test-Path $allHtmlCopy) { Remove-Item .\.index_html_files_only\* -Recurse -Force }
     # Duplicate folder
     Write-Verbose "Copy content"
-    Copy-Item -Recurse -Force E:\virtual_tours\gforces\allcars\.html_files_only\* $allHtmlCopy
+    Copy-Item -Recurse -Force .\.html_files_only\* $allHtmlCopy
     $counter = 1
     # First level
     Write-Verbose "Editing First Level"
@@ -88,12 +88,12 @@ function Start-Script {
         }
     # Restore CSS files
     Write-Verbose "Restored CSS files"
-    Copy-Item E:\virtual_tours\gforces\allcars\favicon.ico $allHtmlCopy
-    Copy-Item E:\virtual_tours\gforces\allcars\html5shiv.js $allHtmlCopy
-    Copy-Item E:\virtual_tours\gforces\allcars\ie7.css $allHtmlCopy
-    Copy-Item E:\virtual_tours\gforces\allcars\ie8.css $allHtmlCopy
-    Copy-Item E:\virtual_tours\gforces\allcars\logo.gif $allHtmlCopy
-    Copy-Item E:\virtual_tours\gforces\allcars\style.css $allHtmlCopy
+    Copy-Item .\favicon.ico $allHtmlCopy
+    Copy-Item .\html5shiv.js $allHtmlCopy
+    Copy-Item .\ie7.css $allHtmlCopy
+    Copy-Item .\ie8.css $allHtmlCopy
+    Copy-Item .\logo.gif $allHtmlCopy
+    Copy-Item .\style.css $allHtmlCopy
     } | select @{n="Total Time";e={$_.Minutes,"minutes",$_.Seconds,"seconds" -join " "}}
     Write-Verbose "Edited $counter index.html files"
 }

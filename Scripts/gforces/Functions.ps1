@@ -11,13 +11,13 @@ function check-pano-exists {
     foreach ($brand in $tour) {
         foreach ($model in $brand.model) {
             foreach ($car in $model.car) {
-                $pano_path = "E:\virtual_tours\gforces\allcars\.src\panos\$($brand.id)\$($car.id).jpg"
+                $pano_path = "$dir\.src\panos\$($brand.id)\$($car.id).jpg"
                 if (!(Test-Path $pano_path)) {
                     Write-Error "$($car.id).jpg doesn't exist "
                     break
                 }
             }
-            $car_pano = Get-ChildItem "E:\virtual_tours\gforces\allcars\.src\panos\$($brand.id)\*.jpg"
+            $car_pano = Get-ChildItem "$dir\.src\panos\$($brand.id)\*.jpg"
             foreach ($car in  $car_pano) {
                 $tiles_path = "$dir\$($brand.id)\files\scenes\$($car.basename)\"
                 if (!(Test-Path $tiles_path)) {
@@ -59,7 +59,7 @@ function move-krpano-files {
         if ((Test-Path $dir\$($brand.id)\files\include)) { Remove-Item -Path $dir\$($brand.id)\files\include -Recurse -Force }
         if ((Test-Path $dir\$($brand.id)\files\include_brand)) { Remove-Item -Path $dir\$($brand.id)\files\include_brand -Recurse -Force }
         if ((Test-Path $dir\$($brand.id)\files\plugins)) { Remove-Item -Path $dir\$($brand.id)\files\plugins -Recurse -Force }
-        Copy-Item -Recurse -Force $dir\.src\bin\* $dir\$($brand.id)\files\
+        Copy-Item -Recurse -Force $dir\..\.src\bin\* $dir\$($brand.id)\files\
     }
 }
 
@@ -67,7 +67,7 @@ function move-krpano-files {
 function generate-html-files {
     Write-Verbose 'Generate HTML files' -Verbose
     # Copy css file
-    Copy-Item -Force "$dir\.src\css\style.css" $dir
+    Copy-Item -Force "$dir\..\.src\css\style.css" $dir
     #[xml]$xml = get-content $config
     #$tour = $xml.tour.brand
     foreach ($brand in $tour) {
@@ -87,7 +87,7 @@ function generate-html-files {
             foreach ($car in $model.car) {
                 Write-Verbose ('  Normal: ' + $car.name ) -Verbose
                 # Create an html file for each car
-                $template_content = Get-Content $dir\.src\html\scene_template.html
+                $template_content = Get-Content $dir\..\.src\html\scene_template.html
                 $template_content |
                 foreach { ($_).replace('SERVERNAME',$xml.tour.url) } | 
                 foreach { ($_).replace('BRANDNAME',$brand_name) } |
@@ -114,7 +114,7 @@ function generate-all-cars-index-html {
     # Create html file
     [xml]$xml = get-content $config
     $tour = $xml.tour.brand
-    Get-Content "$dir\.src\html\index_template.html" | 
+    Get-Content "$dir\..\.src\html\index_template.html" | 
     foreach $_ {
         if ($_ -match 'ADDCONTENT' ) {
             foreach ($brand in $tour) {
@@ -143,7 +143,7 @@ function generate-carmodel-index-html {
     #[xml]$xml = get-content $config
     #$tour = $xml.tour.brand
     foreach ($brand in $tour) {
-        Get-Content "$dir\.src\html\index_template.html" | 
+        Get-Content "$dir\..\.src\html\index_template.html" | 
         foreach $_ {
             if ($_ -match 'ADDCONTENT' ) {
                 '            <h5><a href="../index.html">(Up One Level)</a></h5>' 
@@ -170,7 +170,7 @@ function generate-carbrand-index-html {
     #$tour = $xml.tour.brand
     foreach ($brand in $tour) {
         foreach ($model in $brand.model) {
-            Get-Content "$dir\.src\html\index_template.html" | 
+            Get-Content "$dir\..\.src\html\index_template.html" | 
             where { $_ -notmatch "All Brands" } | 
             foreach $_ {
                 if ($_ -match 'ADDCONTENT' ) {
@@ -328,7 +328,7 @@ function generate-brands-html {
             foreach ($car in $model.car) {
                 Write-Verbose ('  Brand: ' + $car.name ) -Verbose
                 # Create brand.html for each brand
-                $template_content = Get-Content $dir\.src\html\brand_template.html
+                $template_content = Get-Content $dir\..\.src\html\brand_template.html
                 $template_content | 
                 foreach { ($_).replace('SERVERNAME',$xml.tour.url) } | 
                 foreach { ($_).replace('BRANDNAME',$brand_name) } |
@@ -452,7 +452,7 @@ function generate-brands-grid {
     $tour = $xml.tour.brand
     $param1 = 0
     $param2 = 0
-    $tempfile = "$dir\.src\html\index.temp"
+    $tempfile = "$dir\..\.src\html\index.temp"
     $brandsfile = "$dir\brands\index.html"
     $morebrandsfile = "$dir\brands\more.html"
     New-Item -ItemType File $tempfile -Force
@@ -465,7 +465,7 @@ function generate-brands-grid {
             $param2 = $param2 + 220
         }
     }
-    $template_content = Get-Content $dir\.src\html\brands_index_template.html
+    $template_content = Get-Content $dir\..\.src\html\brands_index_template.html
     $brands_content = Get-Content $tempfile
     $template_content | foreach $_ {
         if ($_ -match 'ADDCONTENT' ) {
