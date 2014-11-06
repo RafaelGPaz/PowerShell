@@ -455,6 +455,7 @@ function generate-brands-grid {
     $tempfile = "$dir\..\.src\html\index.temp"
     $brandsfile = "$dir\brands\index.html"
     $morebrandsfile = "$dir\brands\more.html"
+    add-folder "$dir\brands"
     New-Item -ItemType File $tempfile -Force
     foreach ($brand in $tour) {
         $brand_name = $brand.id           
