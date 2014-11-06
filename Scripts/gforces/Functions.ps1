@@ -89,6 +89,7 @@ function generate-html-files {
                 # Create an html file for each car
                 $template_content = Get-Content $dir\..\.src\html\scene_template.html
                 $template_content |
+                foreach { ($_).replace('NEWPATH','../..') } | 
                 foreach { ($_).replace('SERVERNAME',$xml.tour.url) } | 
                 foreach { ($_).replace('BRANDNAME',$brand_name) } |
                 foreach { ($_).replace('SCENENAME',$car.id) } |
@@ -97,6 +98,7 @@ function generate-html-files {
                 #Write-Verbose ('  ' + $($car.id)+'.html') -Verbose
                 # Create html files inside 'devel' directory
                 $template_content |
+                foreach { ($_).replace('NEWPATH','../..') } | 
                 foreach { ($_).replace('SERVERNAME','../..') } | 
                 foreach { ($_).replace('BRANDNAME',$brand_name) } |
                 foreach { ($_).replace('SCENENAME',$car.id) } |
@@ -133,7 +135,7 @@ function generate-all-cars-index-html {
             $_
         }
     } | 
-    foreach $_ {($_).replace('CSSPATH','.')} |
+    foreach $_ {($_).replace('NEWPATH','.')} |
     foreach $_ {($_).replace('All Brands','Grid View')} |
     Set-Content "$dir\index.html"
 }
@@ -157,7 +159,7 @@ function generate-carmodel-index-html {
                $_ 
             } 
         } | 
-        foreach $_ {($_).replace('CSSPATH','..')} |
+        foreach $_ {($_).replace('NEWPATH','..')} |
         foreach $_ {($_).replace('All Brands','Dark Interface')} |
         foreach $_ {($_).replace('./brands/index.html','./brand.html')} |
         Set-Content "$dir\$($brand.id)\index.html"
@@ -185,7 +187,7 @@ function generate-carbrand-index-html {
                    $_ 
                 } 
             } | 
-            foreach $_ {($_).replace('CSSPATH','../..')} |
+            foreach $_ {($_).replace('NEWPATH','../..')} |
             foreach $_ {($_).replace('./brands/index.html','./brand.html')} |
             Set-Content "$dir\$($brand.id)\$($model.id)\index.html"
         }
