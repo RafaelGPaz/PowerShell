@@ -57,8 +57,8 @@
         </GlobalFilter>
         <FolderPairs>
             <Pair>
-                <Left>E:\virtual_tours\gforces\allcars</Left>
-                <Right>E:\virtual_tours\gforces\allcars\.html_files_only</Right>
+                <Left>E:\virtual_tours\gforces\allcars\gb</Left>
+                <Right>E:\virtual_tours\gforces\allcars\gb\.html_files_only</Right>
             </Pair>
         </FolderPairs>
         <OnCompletion>Close progress dialog</OnCompletion>
