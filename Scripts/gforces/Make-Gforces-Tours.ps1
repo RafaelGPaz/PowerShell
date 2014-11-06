@@ -78,11 +78,13 @@ function Start-Script {
     generate-brand-xml
     # Generate brands/index.html and brands/more.html
     generate-brands-grid 
-    # Backward compatibility
-    if ($tour.id -eq "mercedes_benz") { fix-mercedes }
-    if ($tour.id -eq "ford") { fix-ford }
-    if ($tour.id -eq "renault") { fix-renault }
-    if ($tour.id -eq "chevrolet_left") { fix-chevrolet-left }
+    # Backward compatibility for cars in the bg directory
+    if ((Get-Item -Path ".\").Name -eq "gb") {
+        if ($tour.id -eq "mercedes_benz") { fix-mercedes }
+        if ($tour.id -eq "ford") { fix-ford }
+        if ($tour.id -eq "renault") { fix-renault }
+        if ($tour.id -eq "chevrolet_left") { fix-chevrolet-left }
+    }
     } | select @{n="Total Time";e={$_.Minutes,"minutes",$_.Seconds,"seconds" -join " "}}
     #Write-Verbose 'EOF' -Verbose
 
