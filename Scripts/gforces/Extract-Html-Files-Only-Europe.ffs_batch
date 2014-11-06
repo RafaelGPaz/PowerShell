@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FreeFileSync XmlFormat="4" XmlType="BATCH">
+    <MainConfig>
+        <Comparison>
+            <Variant>TimeAndSize</Variant>
+            <TimeShift>0</TimeShift>
+            <Symlinks>Exclude</Symlinks>
+        </Comparison>
+        <SyncConfig>
+            <Variant>Mirror</Variant>
+            <CustomDirections>
+                <LeftOnly>right</LeftOnly>
+                <RightOnly>left</RightOnly>
+                <LeftNewer>right</LeftNewer>
+                <RightNewer>left</RightNewer>
+                <Different>none</Different>
+                <Conflict>none</Conflict>
+            </CustomDirections>
+            <DetectMovedFiles>false</DetectMovedFiles>
+            <DeletionPolicy>Permanent</DeletionPolicy>
+            <VersioningFolder Style="Replace"/>
+        </SyncConfig>
+        <GlobalFilter>
+            <Include>
+                <Item>\*</Item>
+                <Item/>
+                <Item/>
+            </Include>
+            <Exclude>
+                <Item>\.archives</Item>
+                <Item>\.backcomp\</Item>
+                <Item>\.brand_files_only</Item>
+                <Item>\.html_files_only</Item>
+                <Item>\.index_html_files_only\</Item>
+                <Item>\.no_scenes</Item>
+                <Item>\.src</Item>
+                <Item>*\files</Item>
+                <Item>*\devel</Item>
+                <Item>*\thumbs</Item>
+                <Item>*\brands\img</Item>
+                <Item>*\brands\logos</Item>
+                <Item>*\brands\js</Item>
+                <Item>*\*.css</Item>
+                <Item>*\*.gif</Item>
+                <Item>*\*.ico</Item>
+                <Item>*\*.jpg</Item>
+                <Item>*\*.js</Item>
+                <Item>*\*.png</Item>
+                <Item>*\*.swf</Item>
+                <Item>*\*.txt</Item>
+                <Item>*\*.xml</Item>
+                <Item/>
+            </Exclude>
+            <TimeSpan Type="None">0</TimeSpan>
+            <SizeMin Unit="None">0</SizeMin>
+            <SizeMax Unit="None">0</SizeMax>
+        </GlobalFilter>
+        <FolderPairs>
+            <Pair>
+                <Left>E:\virtual_tours\gforces\allcars\europe</Left>
+                <Right>E:\virtual_tours\gforces\allcars\europe\.html_files_only</Right>
+            </Pair>
+        </FolderPairs>
+        <OnCompletion>Close progress dialog</OnCompletion>
+    </MainConfig>
+    <BatchConfig>
+        <HandleError>Popup</HandleError>
+        <RunMinimized>false</RunMinimized>
+        <LogfileFolder Limit="-1"/>
+    </BatchConfig>
+</FreeFileSync>
