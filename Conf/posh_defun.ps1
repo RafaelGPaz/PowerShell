@@ -54,3 +54,14 @@ function nt ([String]$TourName) {
     #. C:\Users\Rafael\Documents\WindowsPowerShell\Modules\New-Tour\New-Tour.psm1
     New-Tour $TourName -Verbose 
 }
+
+function gt ([String]$TourName) {
+<#
+.DESCRIPTION
+    Temporary keybinding to test the module New-Gforces-Tour
+#>
+    Reset-module New-Gforces-Tour
+    . $profile
+    cd E:\virtual_tours\gforces\cars
+    New-Gforces-Tour $TourName -Verbose
+}
