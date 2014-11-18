@@ -25,13 +25,21 @@ function check-folder {
 }
 
 function run-krpano {
-    Param($xmlfile, $custompath)
+    Param($xmlfile, $custompath, $type)
     # Run Krpanotools
     Invoke-Expression "$krpath $krconfig $panopath" | Out-Null
-    # Replace 'scenes/' for my custom path
-        (Get-Content $xmlfile) | 
-        Foreach-Object {$_ -replace "scenes/", $custompath } | 
+    # Edit paths in the scene XML file
+    if ($type -is 'gforces') {
+        # Replace 'scenes/' for %SWFPATH%/scenes
+        (Get-Content $xmlfile) |
+        Foreach-Object {$_ -replace "scenes/", $custompath } |
         Set-Content $xmlfile
+    } else {
+        # Replace 'scenes/$panoname' for %CURRENTXML%/scenes/tiles
+        (Get-Content $xmlfile) |
+        Foreach-Object {$_ -replace "scenes/$panoname", $custompath } |
+        Set-Content $xmlfile
+    }
 }
 
 function make-tiles {
@@ -133,6 +141,43 @@ function make-sitesurvey {
         } 
     }
 }
+function make-gforces {
+    $krconfig = "-config=$krdir\krpano_conf\templates\tv_tiles_for_cars_ipad.config"
+    # Check if the tour folder contains any jpg files
+    if ($(Get-ChildItem .\.src\panos\*.jpg) -eq $null) { Throw ".src\panos\ doesn't contain any panoramas" }
+    foreach ( $panoname in $(dir ".\.src\panos\*.jpg").BaseName |
+    # The first RegEx removes all the numbers and then sorts the list based on just the letters and punctuation.
+    # The second RegEx removes all letters and punctuation leaving just the numbers.
+    # Then casts the numbers to an Integer and sorts again.
+    Sort-Object -Property {$_-replace '[\d]'},{$_-replace '[a-zA-Z\p{P}]'-as [int]} ) {
+        $panopath = Get-Item ".\.src\panos\$panoname.jpg"
+        # Check if there is a folder containing the scene tiles AND it's corresponding xml file
+        if((Test-Path -PathType Container ".\$panoname\files\scenes\tiles") -and (Test-Path ".\$panoname\files\scenes\scene.xml"))
+        {
+            Write-Verbose ('  [ OK ] ' + $panoname)
+        }
+        else
+        {
+            Write-Verbose ('  -----> Making tiles for scene: ' + $panoname)
+            check-folder -dir "$panoname"
+            check-folder -dir "$panoname\files"
+            check-folder -dir "$panoname\files\scenes"
+            $outputfolder = "$($($panopath).Directory)\output"
+            $scenesfolder = "$outputfolder\scenes\"
+            $xmlfile = "$outputfolder\$panoname.xml"
+            $custompath = '%CURRENTXML%/scenes/tiles'
+            run-krpano -xmlfile $xmlfile -custompath $custompath -type 'gforces'
+            # Move new tiles folders and xml files to tour\files\scenes\
+            Move-Item ".\.src\panos\output\scenes\$panoname" ".\$panoname\files\scenes\tiles"
+            Move-Item -Force ".\.src\panos\output\$panoname.xml" ".\$panoname\files\scenes\scene.xml"
+            Write-Verbose '  Tiles Done'
+        }
+    }
+    # Delete output dir if exists
+    if((Test-Path -PathType Container ".\.src\panos\output") -eq $true) {
+        Remove-Item -Recurse .\.src\panos\output
+    }
+}
 
 Clear-Host
 # Krpano settings
@@ -154,8 +199,9 @@ $two = New-Object System.Management.Automation.Host.ChoiceDescription "&3 Levels
 
 $three = New-Object System.Management.Automation.Host.ChoiceDescription "&Site Survey", `
     "Site Servey"
-
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($one, $two, $three)
+$four = New-Object System.Management.Automation.Host.ChoiceDescription "&Gforces", `
+    "Gforces"
+$options = [System.Management.Automation.Host.ChoiceDescription[]]($one, $two, $three, $four)
 
 $result = $host.ui.PromptForChoice($title, $message, $options, 1) 
     
@@ -163,5 +209,6 @@ Switch( $result ){
     0{ make-twolevels }
     1{ make-threelevels }
     2{ make-sitesurvey }
+    3{ make-gforces }
 }
 Write-Verbose "EOF"
