@@ -29,7 +29,7 @@ function run-krpano {
     # Run Krpanotools
     Invoke-Expression "$krpath $krconfig $panopath" | Out-Null
     # Edit paths in the scene XML file
-    if ($type -is 'gforces') {
+    if ($type -like "gforces") {
         # Replace 'scenes/' for %SWFPATH%/scenes
         (Get-Content $xmlfile) |
         Foreach-Object {$_ -replace "scenes/", $custompath } |
@@ -70,7 +70,7 @@ function make-tiles {
                 $scenesfolder = "$outputfolder\scenes\"
                 $xmlfile = "$outputfolder\$panoname.xml"
                 $custompath = '%SWFPATH%/scenes/'
-                run-krpano -xmlfile $xmlfile -custompath $custompath
+                run-krpano -xmlfile $xmlfile -custompath $custompath -type "normal"
                 # Move new tiles folders and xml files to tour\files\scenes\
                 Move-Item ".\.src\panos\$tour\output\scenes\$panoname" ".\$tour\files\scenes\"
                 Move-Item -Force ".\.src\panos\$tour\output\$panoname.xml" ".\$tour\files\scenes\"
@@ -128,7 +128,7 @@ function make-sitesurvey {
                     $scenesfolder = "$outputfolder\scenes\"
                     $xmlfile = "$outputfolder\$panoname.xml"
                     $custompath = '%SWFPATH%/../../files/sets/'
-                    run-krpano -xmlfile $xmlfile -custompath $custompath
+                    run-krpano -xmlfile $xmlfile -custompath $custompath -type "sitesurvey"
                     Move-Item "$outputfolder\scenes\$panoname" ".\files\sets\$tour\$area\" 
                     Move-Item -Force "$xmlfile" ".\files\sets\$tour\$area\" 
                     Write-Verbose '  Tiles Done'
@@ -166,7 +166,7 @@ function make-gforces {
             $scenesfolder = "$outputfolder\scenes\"
             $xmlfile = "$outputfolder\$panoname.xml"
             $custompath = '%CURRENTXML%/scenes/tiles'
-            run-krpano -xmlfile $xmlfile -custompath $custompath -type 'gforces'
+            run-krpano -xmlfile $xmlfile -custompath $custompath -type "gforces"
             # Move new tiles folders and xml files to tour\files\scenes\
             Move-Item ".\.src\panos\output\scenes\$panoname" ".\$panoname\files\scenes\tiles"
             Move-Item -Force ".\.src\panos\output\$panoname.xml" ".\$panoname\files\scenes\scene.xml"
