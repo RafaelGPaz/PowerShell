@@ -30,14 +30,14 @@ function run-krpano {
     Invoke-Expression "$krpath $krconfig $panopath" | Out-Null
     # Edit paths in the scene XML file
     if ($type -like "gforces") {
-        # Replace 'scenes/' for %SWFPATH%/scenes
-        (Get-Content $xmlfile) |
-        Foreach-Object {$_ -replace "scenes/", $custompath } |
-        Set-Content $xmlfile
-    } else {
         # Replace 'scenes/$panoname' for %CURRENTXML%/scenes/tiles
         (Get-Content $xmlfile) |
         Foreach-Object {$_ -replace "scenes/$panoname", $custompath } |
+        Set-Content $xmlfile
+    } else {
+        # Replace 'scenes/' for %SWFPATH%/scenes
+        (Get-Content $xmlfile) |
+        Foreach-Object {$_ -replace "scenes/", $custompath } |
         Set-Content $xmlfile
     }
 }
