@@ -60,8 +60,9 @@ function gt ([String]$TourName) {
 .DESCRIPTION
     Temporary keybinding to test the module New-Gforces-Tour
 #>
-    Reset-module New-Gforces-Tour
-    . $profile
-    cd E:\virtual_tours\gforces\cars
-    New-Gforces-Tour $TourName -Verbose
+    Import-Module New-GforcesTour
+    Reset-module New-GforcesTour -Verbose
+    Import-Module New-GforcesTour
+    cd C:\Users\Rafael\Downloads\gforces-tour
+    New-GforcesTour $TourName -Verbose
 }
