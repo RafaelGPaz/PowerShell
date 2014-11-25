@@ -55,14 +55,16 @@ function nt ([String]$TourName) {
     New-Tour $TourName -Verbose 
 }
 
-function gt ([String]$TourName) {
+function gt {
 <#
 .DESCRIPTION
     Temporary keybinding to test the module New-Gforces-Tour
 #>
+    [CmdletBinding()]
+    Param()
     Import-Module New-GforcesTour
     Reset-module New-GforcesTour -Verbose
     Import-Module New-GforcesTour
     cd C:\Users\Rafael\Downloads\gforces-tour
-    New-GforcesTour $TourName -Verbose
+    ll nl_opel* | New-GforcesTour -Verbose
 }
