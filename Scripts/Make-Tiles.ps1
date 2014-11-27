@@ -165,7 +165,7 @@ function make-gforces {
             $outputfolder = "$($($panopath).Directory)\output"
             $scenesfolder = "$outputfolder\scenes\"
             $xmlfile = "$outputfolder\$panoname.xml"
-            $custompath = '%CURRENTXML%/scenes/tiles'
+            $custompath = "%SWFPATH%/../$panoname/files/scenes/tiles"
             run-krpano -xmlfile $xmlfile -custompath $custompath -type "gforces"
             # Move new tiles folders and xml files to tour\files\scenes\
             Move-Item ".\.src\panos\output\scenes\$panoname" ".\$panoname\files\scenes\tiles"
