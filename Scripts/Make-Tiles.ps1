@@ -170,7 +170,7 @@ function make-gforces {
             # Move new tiles folders and xml files to tour\files\scenes\
             Move-Item ".\.src\panos\output\scenes\$panoname" ".\$panoname\files\scenes\tiles"
             Move-Item -Force ".\.src\panos\output\$panoname.xml" ".\$panoname\files\scenes\scene.xml"
-            Write-Verbose '         Done'
+            #Write-Verbose '         Done'
         }
     }
     # Delete output dir if exists
