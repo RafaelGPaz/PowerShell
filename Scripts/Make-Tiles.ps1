@@ -158,7 +158,7 @@ function make-gforces {
         }
         else
         {
-            Write-Verbose ('  -----> Making tiles for scene: ' + $panoname)
+            Write-Verbose ('  [    ] Making tiles for scene: ' + $panoname)
             check-folder -dir "$panoname"
             check-folder -dir "$panoname\files"
             check-folder -dir "$panoname\files\scenes"
@@ -170,7 +170,7 @@ function make-gforces {
             # Move new tiles folders and xml files to tour\files\scenes\
             Move-Item ".\.src\panos\output\scenes\$panoname" ".\$panoname\files\scenes\tiles"
             Move-Item -Force ".\.src\panos\output\$panoname.xml" ".\$panoname\files\scenes\scene.xml"
-            Write-Verbose '  Tiles Done'
+            Write-Verbose '         Done'
         }
     }
     # Delete output dir if exists
