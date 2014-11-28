@@ -145,6 +145,16 @@ function make-gforces {
     $krconfig = "-config=$krdir\krpano_conf\templates\tv_tiles_for_cars_ipad.config"
     # Check if the tour folder contains any jpg files
     if ($(Get-ChildItem .\.src\panos\*.jpg) -eq $null) { Throw ".src\panos\ doesn't contain any panoramas" }
+    # Check that the panorama names has 3 underscores
+    Get-ChildItem ".\.src\panos\*.jpg" |
+    foreach {
+        $underscores = ((($_.basename).ToString()).split("_")).count
+        if($underscores -ne "4") { Throw "The file $($_.BaseName) doesn't have 4 underscores, it has $underscores. Plaese raname it. "}
+    }
+    # Delete any residual file or folder
+    if(Test-Path ".\.src\panos\output") { Remove-Item -Recurse -Force ".\.src\panos\output" }
+    Get-ChildItem ".\.src\panos\*.kro" | foreach { Remove-Item $_.Fullname }
+    # Create tiles
     foreach ( $panoname in $(dir ".\.src\panos\*.jpg").BaseName |
     # The first RegEx removes all the numbers and then sorts the list based on just the letters and punctuation.
     # The second RegEx removes all letters and punctuation leaving just the numbers.
