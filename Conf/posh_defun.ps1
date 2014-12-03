@@ -65,6 +65,7 @@ function gt {
     Import-Module New-GforcesTour
     Reset-module New-GforcesTour -Verbose
     Import-Module New-GforcesTour
-    cd C:\Users\Rafael\Downloads\gforces-tour
-    ll nl_opel* | New-GforcesTour -Verbose
+    #cd C:\Users\Rafael\Downloads\gforces-tour
+    cd E:\virtual_tours\gforces\cars
+    #ll nl_opel* | New-GforcesTour -Verbose
 }
