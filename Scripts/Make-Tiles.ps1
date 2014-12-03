@@ -15,6 +15,8 @@
 Param ()
 
 $VerbosePreference = "Continue"
+# Stop if there is any error
+$ErrorActionPreference = "Stop"
 
 function check-folder {
     Param($dir)
