@@ -15,7 +15,7 @@
         [Parameter(
             Mandatory=$False, 
             ValueFromPipeline=$true)]
-        [String[]]$Param1,
+        $Param1,
         [String] $IncludeFolder
         )
 
@@ -25,6 +25,7 @@ Begin {
 
     function Add-IncludeXmlFiles ($IncludePath,$basedir) {
     Write-Verbose ">  $IncludePath"
+    $IncludePath = $IncludePath.replace('\\', '\')
     $include = Get-ChildItem $IncludePath\*\*.xml -Exclude 'coordfinder', 'editor_and_options'
     if($include -eq $null) { rm $tourfile; Throw "There are no xml files in the 'include' directory" }
     Write-Verbose '>> Include'
@@ -44,9 +45,8 @@ Begin {
     }
 }
 Process {
-    # Remove '.' and '\' from variable
-    $Param1 = $Param1.replace('.', '')
-    $Param1 = $Param1.replace('\', '')
+    # Convert Param1 in an object just in case it's given a string
+    $Param1 = Get-Item $Param1
     foreach ($TourPath in $Param1) {
         Write-Verbose "Path: $TourPath"
         if(!(Test-Path -Path "$TourPath\files")) { Throw "There is no 'files' directory. Are you in the right directory?" }
