@@ -29,7 +29,7 @@ function gul {git pull}
 function gra {git remote add}
 function grr {git remote rm}
 function gs  {git status}
-function pag {Start-Process $env:ProgramW6432\putty\pageant.exe $env:APPDATA\SSH\UserKeys\github.ppk}
+function pageant {Start-Process $env:ProgramW6432\putty\pageant.exe $env:APPDATA\SSH\UserKeys\github.ppk}
 
 # MISC
 function gforces-latest-cars {
