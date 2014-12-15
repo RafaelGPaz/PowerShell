@@ -1,6 +1,12 @@
 ﻿<#
 .DESCRIPTION
-   Duplicate folder '.html_files_only' and remove any file that is not named 'index.html'
+    This script is obsolete. It was used with the folder 'gforces/allcars/'
+    Now the Gforces cars are in the directory 'gforces/cars' and there is no need to extrat
+    all the HTML files. The script 'New-GforcesTour' already creates and extrat all the
+    HTML files inside the folder 'brands'
+    Read below a description of what this script USED to do when it was in use:
+
+    It duplicates the folder '.html_files_only' and remove any file that is not named 'index.html'
 #>
 
 [CmdletBinding()]
