@@ -12,7 +12,12 @@
 
 [cmdletbinding()]
 
-Param ()
+    Param (
+        [Parameter(
+            Mandatory=$False,
+            ValueFromPipeline=$false)]
+        [Switch] $IgnoreUndercores
+        )
 
 $VerbosePreference = "Continue"
 # Stop if there is any error
@@ -147,11 +152,13 @@ function make-gforces {
     $krconfig = "-config=$krdir\krpano_conf\templates\tv_tiles_for_cars_ipad.config"
     # Check if the tour folder contains any jpg files
     if ($(Get-ChildItem .\.src\panos\*.jpg) -eq $null) { Throw ".src\panos\ doesn't contain any panoramas" }
-    # Check that the panorama names has 3 underscores
-    Get-ChildItem ".\.src\panos\*.jpg" |
-    foreach {
-        $underscores = ((($_.basename).ToString()).split("_")).count
-        if($underscores -ne "4") { Throw "The file $($_.BaseName) doesn't have 4 underscores, it has $underscores. Plaese raname it. "}
+    # Check that the panorama names has 3 underscores, unless this is ignored with the switch '-IgnoreUnderscores'
+    if (!($IgnoreUndercores)) {
+        Get-ChildItem ".\.src\panos\*.jpg" |
+        foreach {
+            $underscores = ((($_.basename).ToString()).split("_")).count
+            if($underscores -ne "4") { Throw "The file $($_.BaseName) doesn't have 4 underscores, it has $underscores. Plaese raname it. "}
+        }
     }
     # Delete any residual file or folder
     if(Test-Path ".\.src\panos\output") { Remove-Item -Recurse -Force ".\.src\panos\output" }
