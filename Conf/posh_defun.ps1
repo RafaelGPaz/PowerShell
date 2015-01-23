@@ -29,7 +29,7 @@ function gul {git pull}
 function gra {git remote add}
 function grr {git remote rm}
 function gs  {git status}
-function pageant {Start-Process $env:ProgramW6432\putty\pageant.exe $env:APPDATA\SSH\UserKeys\github.ppk}
+function pageant {Start-Process $env:ProgramW6432\putty\pageant.exe $env:APPDATA\.ssh\UserKeys\github.ppk}
 function Edit-GitBranchDescription {$(git branch --edit-description)}
 function Get-GitBranchName {$(git rev-parse --abbrev-ref HEAD)}
 function Get-GitBranchDescription {$(git config branch.$(git rev-parse --abbrev-ref HEAD).description)}
