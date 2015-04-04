@@ -149,6 +149,7 @@ function make-sitesurvey {
     }
 }
 function make-gforces {
+    Write-Verbose ('Running...')
     $krconfig = "-config=$krdir\krpano_conf\templates\tv_tiles_for_cars_ipad.config"
     # Check if the tour folder contains any jpg files
     if ($(Get-ChildItem .\.src\panos\*.jpg) -eq $null) { Throw ".src\panos\ doesn't contain any panoramas" }
@@ -163,6 +164,7 @@ function make-gforces {
     # Delete any residual file or folder
     if(Test-Path ".\.src\panos\output") { Remove-Item -Recurse -Force ".\.src\panos\output" }
     Get-ChildItem ".\.src\panos\*.kro" | foreach { Remove-Item $_.Fullname }
+    $quantity = 0
     # Create tiles
     foreach ( $panoname in $(dir ".\.src\panos\*.jpg").BaseName |
     # The first RegEx removes all the numbers and then sorts the list based on just the letters and punctuation.
@@ -171,11 +173,11 @@ function make-gforces {
     Sort-Object -Property {$_-replace '[\d]'},{$_-replace '[a-zA-Z\p{P}]'-as [int]} ) {
         $panopath = Get-Item ".\.src\panos\$panoname.jpg"
         # Check if there is a folder containing the scene tiles AND it's corresponding xml file
-        if((Test-Path -PathType Container ".\$panoname\files\scenes\tiles") -and (Test-Path ".\$panoname\files\scenes\scene.xml"))
-        {
-            Write-Verbose ('  [ OK ] ' + $panoname)
-        }
-        else
+        if(!(Test-Path -PathType Container ".\$panoname\files\scenes\tiles") -and !(Test-Path ".\$panoname\files\scenes\scene.xml"))
+        #{
+        #    Write-Verbose ('  [ OK ] ' + $panoname)
+        #}
+        #else
         {
             Write-Verbose ('  [    ] Making tiles for scene: ' + $panoname)
             check-folder -dir "$panoname"
