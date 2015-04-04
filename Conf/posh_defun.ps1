@@ -46,6 +46,16 @@ function gforces-latest-cars {
     ft basename
 }
 
+function New-GforcesTourForLatestCars {
+<#
+.DESCRIPTION
+    Runs New-GforcesTour for all the cars with Today's LastAccessTime
+#>
+    Get-ChildItem E:\virtual_tours\gforces\cars\.src\panos\*.jpg | 
+    where {$_.LastAccessTime.Date -eq $(get-date).Date } | 
+    New-GforcesTour -Verbose
+}
+
 function nt ([String]$TourName) {
 <#
 .DESCRIPTION
