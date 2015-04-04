@@ -19,7 +19,7 @@ foreach ($item in $pathArray) { $env:path += ';' + $item }
 if ( $Host.Name -eq "ConsoleHost" ) {
     Import-Module PSReadline
     Set-PSReadlineOption -EditMode Emacs
-    Import-Module posh-git
+    #Import-Module posh-git
 }
 
 #Staff only for ISE Console
