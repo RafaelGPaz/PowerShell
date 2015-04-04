@@ -9,12 +9,12 @@
 if ($(dir "C:\" -Force -Filter "hiberfil.sys") -eq $null) 
 {
     Write-Verbose 'Set PowerCfg: ON' -Verbose
-    cmd /C powercfg.exe /h on
+    powercfg.exe /H on
 }
 else
 {
     Write-Verbose 'Set PowerCfg: OFF' -Verbose
-    cmd /C powercfg.exe /h off
+    powercfg.exe /H off
     Write-Warning "Restart computer!" -Verbose
     Restart-Computer -Confirm
 }
