@@ -40,7 +40,7 @@ function gforces-latest-cars {
 .DESCRIPTION
     Shows the last 15 jpg files added to the Gforces 'panos' directory
 #>
-    ls E:\virtual_tours\gforces\allcars\.src\panos\*\*.jpg | 
+    ls E:\virtual_tours\gforces\cars\.src\panos\*.jpg | 
     sort -Property LastWriteTime | 
     Select -Last 15 | 
     ft basename
