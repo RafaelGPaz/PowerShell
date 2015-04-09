@@ -17,7 +17,7 @@ Begin
     # Variables
     $gforcesList = "https://s3-eu-west-1.amazonaws.com/autofs/shared/interiors/v10setup/interiors.xml"
     $config = "E:\virtual_tours\gforces\cars\.src\config.xml"
-    [Array]$tourIDArray = ""
+    [Array]$tourIDArray
     [xml]$configXml = Get-Content $config
     foreach ( $country in $configXml.tour.country ) {
         foreach ( $brand in $country.brand) {
