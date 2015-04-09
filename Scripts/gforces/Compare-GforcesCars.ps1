@@ -35,13 +35,13 @@ Begin
             [Array]$tourIDArray += $renameTo
         }
     }
-    Write-Output "No of shot cars in config.xml --------------> $($($tourIDArray).count)"
+    Write-Output "No of cars in config.xml --------------> $($($tourIDArray).count)"
 
     [xml]$xml = (new-object System.Net.WebClient).DownloadString($gforcesList)
     #[xml]$xml = get-content "C:\Users\Rafael\Downloads\interiors.xml"
     $xmlFilter = $xml.TOURS.ChildNodes | where { $_.countrycode -notlike "IE" }
     $gforcesXml = $xmlFilter.folder_name 
-    Write-Output "No of shot cars in gforces.xml --------------> $($($gforcesXml).count)"
+    Write-Output "No of cars in gforces.xml --------------> $($($gforcesXml).count)"
     #$($gforcesXml.TOURS.ChildNodes).folder_name
 
     $diferences = Compare-Object $($gforcesXml) $($tourIDArray)
