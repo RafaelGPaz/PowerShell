@@ -1,8 +1,9 @@
 ﻿function .. {Set-Location  ..}
 function ... {Set-Location ../..}
 
-function touch {New-Item "$args" -ItemType File | Out-Null} 
-function mkdir {New-Item "$args" -ItemType Directory | Out-Null}
+function New-File {New-Item -path $($args[0]) -ItemType File | Out-Null } 
+function New-Directory  {New-Item -path $($args[0]) -ItemType Directory | Out-Null }
+
 
 # APPLICATIONS
 function pho   { & "$env:ProgramW6432\Adobe\Adobe Photoshop CS6 (64 Bit)\Photoshop.exe" $(Resolve-Path $args[0]) }
