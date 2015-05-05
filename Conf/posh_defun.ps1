@@ -1,5 +1,6 @@
 ﻿function .. {Set-Location  ..}
 function ... {Set-Location ../..}
+function la {Get-ChildItem -Force }
 
 function New-File {New-Item -path $($args[0]) -ItemType File | Out-Null } 
 function New-Directory  {New-Item -path $($args[0]) -ItemType Directory | Out-Null }
