@@ -8,9 +8,9 @@ function New-Directory  {New-Item -path $($args[0]) -ItemType Directory | Out-Nu
 # APPLICATIONS
 function pho   { & "$env:ProgramW6432\Adobe\Adobe Photoshop CS6 (64 Bit)\Photoshop.exe" $(Resolve-Path $args[0]) }
 function irf   { & ${env:ProgramFiles(x86)}\IrfanView\i_view32.exe $(Resolve-Path $args[0]) }
-function emacs { Start-Process -Verb runAs "C:\emacs\bin\runemacs.exe $args" } # Use this to open Emacs the first time. Then it will run as a server
-function em    { Invoke-Expression "C:\emacs\bin\emacsclientw.exe -na C:\emacs\bin\runemacs.exe $(Resolve-Path $args[0])" }
-function emq   { Start-Process -Verb runAs "C:\emacs\bin\emacs.exe --quick $args" }
+function em    { Invoke-Expression "C:\msys64\mingw64\bin\runemacs.exe $args" }
+function emc   { Invoke-Expression "C:\msys64\mingw64\bin\emacsclientw.exe -na C:\msys64\mingw64\bin\runemacs.exe $(Resolve-Path $args[0])" }
+function emacs { Invoke-Expression "C:\msys64\mingw64\bin\runemacs.exe $args" }
 function vim   { & ${env:ProgramFiles(x86)}\Vim\vim74\vim.exe --remote-silent  $args }
 
 # GIT 
