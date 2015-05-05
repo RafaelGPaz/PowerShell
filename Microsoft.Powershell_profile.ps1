@@ -14,7 +14,7 @@ $pathArray = @(
     "$(split-path $PROFILE)\Scripts\gforces\",
     "$(split-path $PROFILE)\Scripts\gforces\New-GforcesTour\",
     "$(split-path $PROFILE)\Scripts\tours\",
-    "$(split-path $PROFILE)\Scripts\tours\New-tour\"
+    "$(split-path $PROFILE)\Scripts\tours\New-Tour\"
     )
 
 foreach ($item in $pathArray) { $env:path += ';' + $item }
