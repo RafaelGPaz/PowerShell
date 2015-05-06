@@ -19,6 +19,17 @@ New-Item -ItemType File -path $tourfile | Out-Null
 # Head
 set-content $tourfile  '<krpano version="1.18" showerrors="false"><krpano logkey="true" />'
 
+# Plugins Directory
+if(!(Test-Path -Path ".\files\plugins")) { rm $tourfile; Throw "There is no 'plugins' directory" 
+}
+$plugins = Get-ChildItem .\files\plugins\*.xml
+Write-Output '===== Plugins ====='
+Write-Output $plugins.Name 
+ForEach ($file in $plugins) {Add-Content $tourfile $(Get-Content $file.FullName | 
+where {$_ -notmatch "<krpano" -and $_ -notmatch "</krpano" -and $_ -notmatch '<?xml version' -and $_.trim() -ne "" } |
+foreach {$_.ToString().TrimStart() }  
+Out-String) }
+
 # Content Directory
 if(!(Test-Path -Path ".\files\content")) { rm $tourfile; Throw "There is no 'content' directory" 
 }
