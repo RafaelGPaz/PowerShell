@@ -59,6 +59,16 @@ Process {
         # Head
         set-content $tourfile  '<krpano version="1.18" showerrors="false"><krpano logkey="true" />'
 
+        # Plugins Directory
+        $plugins = Get-ChildItem $TourPath\..\shared\plugins\*.xml
+        Write-Verbose '[ OK ] Plugins'
+        ForEach ($file in $plugins) {
+            Write-Verbose "       $($file.Name)"
+            Add-Content $tourfile $(Get-Content $file.FullName | 
+            where {$_ -notmatch "<krpano" -and $_ -notmatch "</krpano" -and $_ -notmatch '<?xml version' -and $_.trim() -ne "" } |
+            foreach {$_.ToString().TrimStart() }  
+            Out-String)
+        }
         # Content Directory
         if(!(Test-Path -Path "$TourPath\files\content")) { rm $tourfile; Throw "There is no 'content' directory" 
         }
