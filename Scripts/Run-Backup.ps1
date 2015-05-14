@@ -24,21 +24,6 @@ $VerbosePreference = "Continue"
 # Stop if there is any error
 $ErrorActionPreference = "Stop"
 
-#write-verbose "Backing up Home img ..." -Verbose
-
-#write-verbose "Backing up Home plus ..." -Verbose
-#$batfile = [diagnostics.process]::Start("E:\documents\freefilesync\home_plus.ffs_batch")
-#$batfile.WaitForExit()
-#write-verbose "Backing up Work img ..." -Verbose
-#$batfile = [diagnostics.process]::Start("E:\documents\freefilesync\work_img.ffs_batch")
-#$batfile.WaitForExit()
-#write-verbose "Backing up Work plus ..." -Verbose
-#$batfile = [diagnostics.process]::Start("E:\documents\freefilesync\work_plus.ffs_batch")
-#$batfile.WaitForExit()
-#write-verbose "Backing up Dropbox ..." -Verbose
-#$batfile = [diagnostics.process]::Start("E:\documents\freefilesync\dropbox.ffs_batch")
-#$batfile.WaitForExit()
-
 function Backup-Home {
     param()
     write-verbose "Backing up Home img ..." -Verbose
