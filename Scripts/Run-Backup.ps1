@@ -64,7 +64,7 @@ function Backup-All {
     Backup-Work
 }
 
-function Backup-Work {
+function Backup-VirtualBox {
     param()
     write-verbose "Backing up VirtualBox ..." -Verbose
     $batfile = [diagnostics.process]::Start("$conf_dir\virtualbox.ffs_batch")
