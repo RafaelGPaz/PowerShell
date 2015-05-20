@@ -1,5 +1,8 @@
-﻿Set-Alias ll Get-ChildItem
-Set-Alias la Get-ChildItem
+﻿Set-Alias ll List-Directory
+Set-Alias la List-DirectoryAll
+Set-Alias ld List-DirectoriesOnly
+Set-Alias lf List-FilesOnly
+Set-Alias ldf List-DotFilesOnly
 Set-Alias cc Clear-Host
 Set-Alias sls Select-String
 Set-Alias halt Stop-Computer

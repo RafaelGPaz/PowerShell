@@ -1,7 +1,11 @@
 ﻿function .. {Set-Location  ..}
 function ... {Set-Location ../..}
-function la {Get-ChildItem -Force }
 
+function List-Directory {Get-ChildItem | Format-Table -AutoSize} 
+function List-DirectoryAll {Get-ChildItem -Force | Format-Table -AutoSize}
+function List-DirectoriesOnly {Get-ChildItem -Directory | Format-Table -AutoSize}
+function List-FilesOnly {Get-ChildItem -File | Format-Table -AutoSize}
+function List-DotFilesOnly {Get-ChildItem -File -Filter .* | Format-Table -AutoSize}
 function New-File {New-Item -path $($args[0]) -ItemType File | Out-Null } 
 function New-Directory  {New-Item -path $($args[0]) -ItemType Directory | Out-Null }
 
