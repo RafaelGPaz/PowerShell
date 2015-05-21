@@ -1,3 +1,4 @@
-[submodule "New-GforcesTour"]
+[submodule "Scripts/gforces/New-GforcesTour"]
 	path = Scripts/gforces/New-GforcesTour
-	url = C:/Users/rafaelgp/Documents/WindowsPowerShell/Scripts/gforces/New-GforcesTour
+	url = http://github.com/rafaelgp/New-GforcesTour
+	branch = master
