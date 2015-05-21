@@ -1,74 +1,58 @@
 <#
 .SYNOPSIS
-
+    Generate Virtual Tour
 .DESCRIPTION
-        
-.PARAMETER TourName
-    The Name of the Tour to build.
+    Generate all the required files for a Virtual Tour
 .EXAMPLE
-    C:\PS>New-Tour scene1
+    C:\PS>Get-Item [folder_name] | New-Tour -Verbose
 #>
-[CmdletBinding()]
-Param (                        
-[Parameter(Mandatory=$False, 
-    ValueFromPipeline=$True,
-    #ValueFromPipelineByPropertyName=$True,
-    Position=0)]  
-    [String]$TourName
-)
-Measure-Command {
-. C:\Users\Rafael\Documents\WindowsPowerShell\Scripts\tours\New-Tour\New-Tour-Functions.ps1
-$krVersion = "1.17"
-#Clear-Host
-Confirm-ConfigFile
-Add-SrcDirectory
-Add-TourXml
+    [CmdletBinding()]
+    Param (
+    [Parameter(
+        Mandatory=$False,
+        ValueFromPipeline=$True,
+        ValueFromPipelineByPropertyName=$true)]
+        $TourName
+        )
+    Begin {
+        . C:\Users\Rafael\Documents\WindowsPowerShell\Scripts\tours\New-Tour\New-Tour-Functions.ps1
+        # Stop if there is any error
+        $ErrorActionPreference = "Stop"
+        $krVersion = "1.18"
+        $configFile =  "config.xml"
+        if (Test-Path ".\$configFile") { 
+            $configPath = (Get-Item ".\config.xml").FullName
 
-# Source XML files
-[xml]$configXml = Get-Content ".\config.xml"
-[xml]$tourXml = Get-Content ".\tour.xml"
-
-# If param is given, run the script only for that tour
-if ($TourName -ne "") {
-    # Remove dot and backslashes from it
-    $TourName = $TourName.replace('.', '')
-    $TourName = $TourName.replace('\', '')
-    # Stop if the given param isn't a real tour name
-    if(!(Test-Path .\.src\panos\$TourName)){ Throw "Folder .src\panos\$TourName NOT FOUND. Have you type the tour forder correctly?" }
-    $TourXml | ForEach-Object { $tour = $_.vt.tour | where { $_.id -match $TourName } }
-# If no param, run the script for ALL tours
-} else {
-    $tourXml | ForEach-Object { $tour = $_.vt.tour } 
-}
-
-Add-CustomDirectory $tour
-    
-$tour | ForEach-Object {
-
-    Add-FolderStructure $_
-    Remove-OldFiles $_       
-
-    #Add-SceneNames
-    #Add-SceneTitle
-    #Add-IncludePluginAndData
-    #Add-PluginsInCustom
-    #Add-IncludePlugin
-    #Add-InfoBtn
-    Add-Includes $_ $configXml
-    Add-IncludePanolist $_ $krVersion
-    Add-IncludeMovecamera $_ $krVersion
-    Add-IncludeLogoClient $_ $configXml
-    Add-IncludeHotspots $_ $configXml
-    #Add-Scroll
-    #Add-PluginsData
-    #Add-Tour
-        
-    Add-DevelXml $_ $krVersion       
-    #Merge-XmlFiles
-    #Add-CrossDomain
-    Add-KrpanoPlugins $_
-    Add-HtmlFiles $_ $configXml
-}
-Add-HtmlList $tour
-
-} | select @{n="Total Time";e={$_.Minutes,"minutes",$_.Seconds,"seconds" -join " "}}  
+        } else {
+            Add-ConfigFile
+        }
+        break
+        Read-ConfigFile
+        # If it's a "multiple tours" project create 'shared' folder and copy 'plugins' folder, tour.swf and tour.js inside it
+        Add-SharedFolder
+        # According to the config file, add and remove folders inside the 'include' directory
+        Update-IncludeFolder
+    }
+    Process {
+        # Add one folder for every tour
+        Add-TourFolder
+        # Add a index.html file which contains a list of all the scenes
+        Add-IndexFile
+        # Add a HTML FILE fore every scene
+        Add-ScenesFiles
+        # Add 'devel' folder and one HTML file for each scene
+        Add-DevelFolder
+        # Add 'content' folder
+        Add-ContentFolder
+        # If it's a "single tour" project, copy 'plugins' folder, tour.swf and tour.js
+        Add-KrpanoFiles
+        # If it's a "single tour" project, according to the config file, add and remove folders inside the 'include' directory
+        Update-IncludeFolder
+        # Add devel.xml
+        Add-DevelFile
+        # Add tour.xml
+        Add-TourFile
+    }
+    End {
+    Write-Verbose "EOF"
+    }
