@@ -2,3 +2,6 @@
 	path = Scripts/gforces/New-GforcesTour
 	url = http://github.com/rafaelgp/New-GforcesTour
 	branch = master
+[submodule "Scripts/tours/New-Tour"]
+	path = Scripts/tours/New-Tour
+	url = http://github.com/rafaelgp/New-Tour
