@@ -63,30 +63,3 @@ function New-GforcesTourForLatestCars {
     where {$_.LastAccessTime.Date -eq $(get-date).Date } | 
     New-GforcesTour -Verbose
 }
-
-function nt ([String]$TourName) {
-<#
-.DESCRIPTION
-    Temporary keybinding to test the module New-Tour
-#>
-    Reset-module New-Tour
-    . $profile
-    cd C:\Users\Rafael\Downloads\test-make-tour
-    #. C:\Users\Rafael\Documents\WindowsPowerShell\Modules\New-Tour\New-Tour.psm1
-    New-Tour $TourName -Verbose 
-}
-
-function gt {
-<#
-.DESCRIPTION
-    Temporary keybinding to test the module New-Gforces-Tour
-#>
-    [CmdletBinding()]
-    Param()
-    Import-Module New-GforcesTour
-    Reset-module New-GforcesTour -Verbose
-    Import-Module New-GforcesTour
-    #cd C:\Users\Rafael\Downloads\gforces-tour
-    cd E:\virtual_tours\gforces\cars
-    #ll nl_opel* | New-GforcesTour -Verbose
-}
