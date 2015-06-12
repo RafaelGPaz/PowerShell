@@ -1,7 +1,6 @@
 ﻿function .. {Set-Location  ..}
 function ... {Set-Location ../..}
 
-function List-Directory {Get-ChildItem | Format-Table -AutoSize} 
 function List-DirectoryAll {Get-ChildItem -Force | Format-Table -AutoSize}
 function List-DirectoriesOnly {Get-ChildItem -Directory | Format-Table -AutoSize}
 function List-FilesOnly {Get-ChildItem -File | Format-Table -AutoSize}

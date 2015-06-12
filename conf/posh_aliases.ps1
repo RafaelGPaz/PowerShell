@@ -1,4 +1,4 @@
-﻿Set-Alias ll List-Directory
+﻿Set-Alias ll Get-ChildItem
 Set-Alias la List-DirectoryAll
 Set-Alias ld List-DirectoriesOnly
 Set-Alias lf List-FilesOnly
