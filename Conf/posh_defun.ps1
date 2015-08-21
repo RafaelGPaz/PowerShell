@@ -16,8 +16,6 @@ function em    { Invoke-Expression "C:\msys64\mingw64\bin\runemacs.exe $args" }
 function emc   { Invoke-Expression "C:\msys64\mingw64\bin\emacsclientw.exe -na C:\msys64\mingw64\bin\runemacs.exe $(Resolve-Path $args[0])" }
 function emacs { Invoke-Expression "C:\msys64\mingw64\bin\runemacs.exe $args" }
 function vim   { & ${env:ProgramFiles(x86)}\Vim\vim74\vim.exe --remote-silent  $args }
-$deb_conf = 'startvm "Debian" --type gui'
-function deb   { Invoke-Expression "C:\'Program Files'\Oracle\VirtualBox\VBoxManage.exe $deb_conf" }
 
 # GIT 
 function ga  {git add}
