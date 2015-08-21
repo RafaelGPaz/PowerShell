@@ -1,8 +1,3 @@
-[submodule "Scripts/gforces/New-GforcesTour"]
-	path = Scripts/gforces/New-GforcesTour
-	url = http://github.com/rafaelgp/New-GforcesTour
-	branch = master
-[submodule "Scripts/tours/New-Tour"]
-	path = Scripts/tours/New-Tour
-	url = http://github.com/rafaelgp/New-Tour
-	branch = master
+[submodule "scripts/tour/New-Tour"]
+	path = scripts/tour/New-Tour
+	url = git@github.com:rafaelgp/New-Tour.git
