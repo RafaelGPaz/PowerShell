@@ -5,3 +5,4 @@
 [submodule "Scripts/tours/New-Tour"]
 	path = Scripts/tours/New-Tour
 	url = http://github.com/rafaelgp/New-Tour
+	branch = master
