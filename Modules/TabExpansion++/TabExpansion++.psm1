@@ -44,14 +44,22 @@ function New-CompletionResult
           $ListItemText,
 
           [System.Management.Automation.CompletionResultType]
-          $CompletionResultType = [System.Management.Automation.CompletionResultType]::ParameterValue)
+          $CompletionResultType = [System.Management.Automation.CompletionResultType]::ParameterValue,
+ 
+          [Parameter(Mandatory = $false)]
+          [switch] $NoQuotes = $false
+          )
 
     process
     {
         $toolTipToUse = if ($ToolTip -eq '') { $CompletionText } else { $ToolTip }
         $listItemToUse = if ($ListItemText -eq '') { $CompletionText } else { $ListItemText }
 
-        if ($CompletionResultType -eq [System.Management.Automation.CompletionResultType]::ParameterValue)
+        # If the caller explicitly requests that quotes
+        # not be included, via the -NoQuotes parameter,
+        # then skip adding quotes.
+
+        if ($CompletionResultType -eq [System.Management.Automation.CompletionResultType]::ParameterValue -and -not $NoQuotes)
         {
             # Add single quotes for the caller in case they are needed.
             # We use the parser to robustly determine how it will treat
@@ -134,9 +142,18 @@ function Set-CompletionPrivateData
         $Key,
 
         [object]
-        $Value)
+        $Value,
 
-    $completionPrivateData[$key] = $value
+        [ValidateNotNullOrEmpty()]
+        [int]
+        $ExpirationSeconds = 604800
+        )
+
+    $Cache = [PSCustomObject]@{
+        Value = $Value
+        ExpirationTime = (Get-Date).AddSeconds($ExpirationSeconds)
+        }
+    $completionPrivateData[$key] = $Cache
 }
 
 #############################################################################
@@ -148,8 +165,12 @@ function Get-CompletionPrivateData
         [string]
         $Key)
 
-    Flush-BackgroundResultsQueue
-    return $completionPrivateData[$key]
+    Flush-BackgroundResultsQueue;
+
+    $cacheValue = $completionPrivateData[$key]
+    if ((Get-Date) -lt $cacheValue.ExpirationTime) {
+        return $cacheValue.Value
+    }
 }
 
 #############################################################################
@@ -378,10 +399,10 @@ function Register-ArgumentCompleter
         [Parameter(ParameterSetName="NativeSet")]
         [switch]$Native)
 
+    $fnDefn = $ScriptBlock.Ast -as [System.Management.Automation.Language.FunctionDefinitionAst]
     if (!$Description)
     {
-        # See if the script block is really a function, if so, use the function name.
-        $fnDefn = $ScriptBlock.Ast.Parent -as [System.Management.Automation.Language.FunctionDefinitionAst]
+        # See if the script block is really a function, if so, use the function name.        
         $Description = if ($fnDefn -ne $null) { $fnDefn.Name } else { "" }
     }
 
@@ -390,7 +411,12 @@ function Register-ArgumentCompleter
         # Make an unbound copy of the script block so it has access to TabExpansion++ when invoked.
         # We can skip this step if we created the script block (Register-ArgumentCompleter was
         # called internally).
-        $ScriptBlock = $ScriptBlock.Ast.GetScriptBlock()  # Don't reparse, just get a new ScriptBlock.
+        if ($fnDefn -ne $null){
+            $ScriptBlock = $ScriptBlock.Ast.Body.GetScriptBlock()  # Don't reparse, just get a new ScriptBlock.
+        }
+        else {
+            $ScriptBlock = $ScriptBlock.Ast.GetScriptBlock()  # Don't reparse, just get a new ScriptBlock.
+        }
     }
 
     foreach ($command in $CommandName)
@@ -557,7 +583,15 @@ function Update-ArgumentCompleter
 #############################################################################
 #
 # .SYNOPSIS
+# Retrieves a list of argument completers that have been loaded into the
+# PowerShell session.
 #
+# .PARAMETER Name
+# The name of the argument complete to retrieve. This parameter supports 
+# wildcards (asterisk).
+#
+# .EXAMPLE
+# Get-ArgumentCompleter -Name *Azure*;
 function Get-ArgumentCompleter
 {
     [CmdletBinding()]
@@ -791,7 +825,7 @@ function Flush-BackgroundResultsQueue
         $parameters = $item.Value
         if ($item.ArgumentCompleter)
         {
-            Register-ArgumentCompleter @parameters
+            TabExpansion++\Register-ArgumentCompleter @parameters
         }
         elseif ($item.InitializationData)
         {
@@ -896,7 +930,7 @@ function TryNativeCommandOptionCompletion
             param($ast)
             return $offset -gt $ast.Extent.StartOffset -and
                    $offset -le $ast.Extent.EndOffset -and
-                   $ast.Extent.Text -in '-','--'
+                   $ast.Extent.Text.StartsWith('-')
         }
         $option = $ast.Find($offsetInOptionExtentPredicate, $true)
         if ($option -ne $null)

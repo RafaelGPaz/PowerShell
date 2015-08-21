@@ -101,11 +101,11 @@ Set-Variable -Name PSGET_PSD1 -Value 'PSD1' -Option Constant -Scope Script
         Default: definition in directory file or 'Install.ps1'
 
     .PARAMETER Force
-        OBSOLATE
+        OBSOLETE
         Alternative name for 'Update'.
 
     .PARAMETER Startup
-        OBSOLATE
+        OBSOLETE
         Alternative name for 'AddToProfile'.
 
     .LINK
@@ -414,7 +414,7 @@ function Update-Module {
 
         }
         else {
-            Install-Module -Module:$Module -Destination:$Destination -ModuleHash:$ModuleHash -Global:$Global -DoNotImport:$DoNotImport -AddToProfile:$AddToProfile -DirectoryUrl:$DirectoryUrl -Updat -DoNotPostInstall:$DoNotPostInstall -PostInstallHook:$PostInstallHook
+            Install-Module -Module:$Module -Destination:$Destination -ModuleHash:$ModuleHash -Global:$Global -DoNotImport:$DoNotImport -AddToProfile:$AddToProfile -DirectoryUrl:$DirectoryUrl -Update -DoNotPostInstall:$DoNotPostInstall -PostInstallHook:$PostInstallHook
         }
     }
 }
@@ -1910,14 +1910,20 @@ function Invoke-DownloadNuGetPackage {
         }
 
         Write-Verbose "Querying '$Source' repository for package with Id '$NuGetPackageId'"
-        $Url = "{1}Packages()?`$filter=tolower(Id)+eq+'{0}'&`$orderby=Id" -f $NuGetPackageId.ToLower(), $Source
-        Write-Debug "NuGet query url: $Url"
-
         try {
+            $Url = "{1}Packages()?`$filter=tolower(Id)+eq+'{0}'&`$orderby=Id" -f $NuGetPackageId.ToLower(), $Source
+            Write-Debug "Trying NuGet query url: $Url"
             $XmlDoc = [xml]$WebClient.DownloadString($Url)
         }
         catch {
-            throw "Unable to download from NuGet feed: $($_.Exception.InnerException.Message)"
+            try {
+                $Url = "{1}Packages(Id='{0}')?`$orderby=Id" -f $NuGetPackageId, $Source
+                Write-Debug "Trying NuGet query url: $Url"
+                $XmlDoc = [xml]$WebClient.DownloadString($Url)
+            }
+            catch {
+                throw "Unable to download from NuGet feed: $($_.Exception.InnerException.Message)"
+            }
         }
 
         if ($PackageVersion) {
