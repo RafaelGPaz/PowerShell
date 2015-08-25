@@ -1,12 +1,19 @@
 ﻿<#
-.SYNOPSIS
-
 .DESCRIPTION
-
+    Required:
+    - .src/ directory
+    - .src/panos/*.jpg files
+    - .src/config.xml file
+    Run the script from the root manufactures folder (ex: gmc_manufacturer/) like this:
+        gi .\gmc_sierra_2015\ | New-ManufacturerTour.ps1 -Verbose
+    Files that will be created:
+    - index.html and devel.html in the root directory
+    - index.html and devel.html in the model directory
+    - tour.xml
 .PARAMETER TourName
-    The Name of the Tour to build.
+    The Name of the Tour to build. Pass it through a pipe line.
 .EXAMPLE
-    C:\PS>New-GforcesTour scene1
+    gi .\gmc_sierra_2015\ | New-ManufacturerTour.ps1 -Verbose
 #>
 [CmdletBinding()]
 Param (
