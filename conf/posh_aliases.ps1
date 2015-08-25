@@ -5,7 +5,7 @@ Set-Alias lf List-FilesOnly
 Set-Alias ldf List-DotFilesOnly
 Set-Alias cc Clear-Host
 Set-Alias sls Select-String
-Set-Alias halt Stop-Computer
+Set-Alias off Stop-Computer
 Set-Alias pro Reload-Profile
 Set-Alias aws "C:\Python34\Scripts\aws.cmd"
 Set-Alias nf New-File
