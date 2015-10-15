@@ -18,6 +18,7 @@ Begin
 {
     $ErrorActionPreference = "Stop"
     # Variables
+    $ignoreCar = $(Get-ChildItem E:\virtual_tours\gforces\cars\.src\saved_for_later\* -d).BaseName
     $excelFile="C:\Users\Rafael\Downloads\Assets-GForces%20360%20Makes%20and%20Models%20(Responses).xlsx"
     if (!(Test-Path $excelFile)) { Throw "Can't find .xlsx file!!!" }
     $gforcesList = Import-Excel $excelFile
@@ -31,19 +32,25 @@ Begin
             foreach ($model in $brand.model) {
                 foreach ($car in $model.car) {
                     $tour = $($car.id) 
-                    [Array]$tourIDArray += $tour
+                    [Array]$tourIDArrayProv += $tour
                 }
             }
         }
     }
+    # Exclude cars named as the folders in the directory .src/save_for_later
+    $tourIDArray = $tourIDArrayProv | Where-Object { $ignoreCar -notcontains $_ }
+
     Write-Output "No of shot cars in config.xml --------------> $($($tourIDArray).count)"
 
     # renameArray contains all the cars within the .cvs file with the tag 'shot'
     $cvsShotCars = $gforcesList | where { $_.Status -like "shot"}
     [Array]$CvsShotCarsArray = ""
     foreach ($shotCar in $cvsShotCars.Filename) {
-        [Array]$CvsShotCarsArray += $shotCar
+        [Array]$CvsShotCarsArrayProv += $shotCar
     }
+    # Exclude cars named as the folders in the directory .src/save_for_later
+    $CvsShotCarsArray = $CvsShotCarsArrayProv | Where-Object { $ignoreCar -notcontains $_ }
+
     Write-Output "No of shot cars in .csv --------------------> $($($CvsShotCarsArray).count)"
 
     # MISSING CARS IN THE CVS FILE
