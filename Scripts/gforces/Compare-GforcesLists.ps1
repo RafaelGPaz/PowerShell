@@ -18,7 +18,9 @@ Begin
 {
     $ErrorActionPreference = "Stop"
     # Variables
-    $gforcesList = Import-Csv "C:\Users\Rafael\Downloads\GForces 360 Makes and Models (Responses) - Worksheet.csv"
+    $excelFile="C:\Users\Rafael\Downloads\Assets-GForces%20360%20Makes%20and%20Models%20(Responses).xlsx"
+    if (!(Test-Path $excelFile)) { Throw "Can't find .xlsx file!!!" }
+    $gforcesList = Import-Excel $excelFile
     $config = "E:\virtual_tours\gforces\cars\.src\config.xml"
     [xml]$configXml = Get-Content $config
 
