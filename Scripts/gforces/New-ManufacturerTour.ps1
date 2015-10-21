@@ -35,6 +35,11 @@ Begin {
     if (!(Test-Path $config)) { Throw "Where is config.xml?" }
     # Source config.xml
     [xml]$configXml = Get-Content $config
+    # Array containing all the cars to be ranamed
+    $ignoreTour = $configXml.tour.rename.car
+    foreach ($ignoreCar in $ignoreTour) {
+        [Array]$ignoreArray += $ignoreCar.id
+    }
     Write-Verbose "-------------------- Checking --------------------"
     $carNumber = 0
     foreach ( $brand in $configXml.tour.brand ) {
@@ -54,10 +59,13 @@ Begin {
     foreach {
         $carID = $($_.BaseName)
         $carFolder = ".src/panos/$carID.jpg"
-        if(!(Test-Path $($carFolder))) {
-            # Cars in the rename section aren't obsolete
-            if ($renameToArray -notcontains $carID) {
-                throw "The following folder is obsolete: $($_.FullName)"
+        # Skip checking ignored cars
+        if ($ignoreArray -notcontains $carID) {
+            if(!(Test-Path $($carFolder))) {
+                # Cars in the rename section aren't obsolete
+                if ($renameToArray -notcontains $carID) {
+                    throw "The following folder is obsolete: $($_.FullName)"
+                }
             }
         }
     }
@@ -238,4 +246,36 @@ End {
     foreach {($_).replace('</style>','.home-content{background:palegoldenrod;}</style>')} |
     Set-Content "$dir\devel.html"
     Write-Verbose ">> devel.html"
+    # Rename cars
+    $renameTour = $configXml.tour.rename.car
+        foreach ($renameCar in $renameTour) {
+        [Array]$renameThisCars += $renameCar
+    }
+    if ($renameThisCars -notlike "") {
+        Write-Verbose "-------------------- Rename Cars --------------------"
+    }
+    foreach ($renameCar in $renameThisCars) {
+            $carID = $($renameCar.id)
+            $carRenameTo = $($renameCar.renameTo)
+            #Write-Host $carID
+            #Write-Host $carRenameTo
+            # Delete folder with the wrong name
+            if ( Test-Path $dir\$carRenameTo ) {
+                Remove-Item $dir\$carRenameTo -Recurse -Force
+            }
+            # Create a new folder with the wrong name with a folder named 'files' inside it
+            New-Item -Path $dir\$carRenameTo -ItemType Directory | Out-Null
+            New-Item -Path $dir\$carRenameTo\files -ItemType Directory | Out-Null
+            # Copy original 'index.html' file replacing wrong name for the right one
+            $index_content = Get-Content $dir\$carID\index.html
+            $index_content |
+            foreach { ($_).replace($CarID,$carRenameTo ) } |
+            Out-File -Encoding utf8 $dir\$carRenameTo\index.html
+            # Copy original 'tour.xml' file replacing wrong name for the right one
+            $index_content = Get-Content $dir\$carID\files\tour.xml
+            $index_content |
+            foreach { ($_).replace($CarID + '"',$carRenameTo + '"' ) } |
+            Out-File -Encoding utf8 $dir\$carRenameTo\files\tour.xml
+            Write-Verbose ">> $carID > $carRenameTo"
+    }
 }
