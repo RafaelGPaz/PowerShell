@@ -19,7 +19,7 @@ Begin
     $ErrorActionPreference = "Stop"
     # Variables
     $ignoreCar = $(Get-ChildItem E:\virtual_tours\gforces\cars\.src\saved_for_later\* -d).BaseName
-    $excelFile="C:\Users\Rafael\Downloads\Assets-GForces%20360%20Makes%20and%20Models%20(Responses).xlsx"
+    $excelFile="C:\Users\Rafael\Downloads\Assets-GForces 360 Makes and Models (Responses).xlsx"
     if (!(Test-Path $excelFile)) { Throw "Can't find .xlsx file!!!" }
     $gforcesList = Import-Excel $excelFile
     $config = "E:\virtual_tours\gforces\cars\.src\config.xml"
