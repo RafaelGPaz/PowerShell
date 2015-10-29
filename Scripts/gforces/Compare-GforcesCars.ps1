@@ -39,8 +39,7 @@ Begin
 
     [xml]$xml = (new-object System.Net.WebClient).DownloadString($gforcesList)
     #[xml]$xml = get-content "C:\Users\Rafael\Downloads\interiors.xml"
-    $xmlFilter = $xml.TOURS.ChildNodes | where { $_.countrycode -notlike "IE" }
-    $gforcesXml = $xmlFilter.folder_name 
+    $gforcesXml = $($xml.TOURS.ChildNodes).folder_name 
     Write-Output "No of cars in gforces.xml --------------> $($($gforcesXml).count)"
     #$($gforcesXml.TOURS.ChildNodes).folder_name
 
