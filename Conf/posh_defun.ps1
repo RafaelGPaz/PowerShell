@@ -40,23 +40,12 @@ function Get-GitBranchName {$(git rev-parse --abbrev-ref HEAD)}
 function Get-GitBranchDescription {$(git config branch.$(git rev-parse --abbrev-ref HEAD).description)}
 
 # MISC
-function gforces-latest-cars {
+function Find-GforcesLatestCars {
 <#
 .DESCRIPTION
-    Shows the last 15 jpg files added to the Gforces 'panos' directory
+    Shows the lastest jpg files added to the Gforces 'panos' directory
+    Then I can pipelise them to "| select -last 5"
 #>
-    ls E:\virtual_tours\gforces\cars\.src\panos\*.jpg | 
-    sort -Property LastWriteTime | 
-    Select -Last 15 | 
-    ft basename
-}
-
-function New-GforcesTourForLatestCars {
-<#
-.DESCRIPTION
-    Runs New-GforcesTour for all the cars with Today's LastAccessTime
-#>
-    Get-ChildItem E:\virtual_tours\gforces\cars\.src\panos\*.jpg | 
-    where {$_.LastAccessTime.Date -eq $(get-date).Date } | 
-    New-GforcesTour -Verbose
+    Get-ChildItem E:\virtual_tours\gforces\cars\*_*_*_* | 
+    sort -Property LastWriteTime
 }
