@@ -36,6 +36,11 @@ Begin {
     # Source config.xml
     [xml]$configXml = Get-Content $config
     # Array containing all the cars to be ranamed
+    $ignoreTour = $configXml.tour.ignore.car
+    foreach ($ignoreCar in $ignoreTour) {
+        [Array]$ignoreArray += $ignoreCar.id
+    }
+    # Array containing all the cars to be ranamed
     $ignoreTour = $configXml.tour.rename.car
     foreach ($ignoreCar in $ignoreTour) {
         [Array]$ignoreArray += $ignoreCar.id
@@ -45,17 +50,20 @@ Begin {
     foreach ( $brand in $configXml.tour.brand ) {
         foreach ($car in $brand.car) {
             $carNumber = $carNumber + 1
-            # Check that there is a panorama for each car in config.xml
-            if(!(Test-Path .\.src\panos\$($car.id).jpg )) { Throw "Pano .src\panos\$($car.id).jpg NOT FOUND." }
-            # Check that every car has tites and scene.xml
-            if(!(Test-Path .\$($car.id)\files )) { Throw "Folder .\$($car.id)\files NOT FOUND. Did you create the tiles correctly?" }
-            if(!(Test-Path .\$($car.id)\files\scenes )) { Throw "Folder .\$($car.id)\files\scenes NOT FOUND. Did you create the tiles correctly?" }
-            if(!(Test-Path .\$($car.id)\files\scenes\tiles )) { Throw "Folder .\$($car.id)\files\scenes\tiles NOT FOUND. Did you create the tiles correctly?" }
-            if(!(Test-Path .\$($car.id)\files\scenes\scene.xml )) { Throw "File .\$($car.id)\files\scenes\scene.xml NOT FOUND. Did you create the tiles correctly?" }
+            # Skip checking ignored cars
+            if ($ignoreArray -notcontains $car.id) {
+                # Check that there is a panorama for each car in config.xml
+                if(!(Test-Path .\.src\panos\$($car.id).jpg )) { Throw "Pano .src\panos\$($car.id).jpg NOT FOUND." }
+                # Check that every car has tites and scene.xml
+                if(!(Test-Path .\$($car.id)\files )) { Throw "Folder .\$($car.id)\files NOT FOUND. Did you create the tiles correctly?" }
+                if(!(Test-Path .\$($car.id)\files\scenes )) { Throw "Folder .\$($car.id)\files\scenes NOT FOUND. Did you create the tiles correctly?" }
+                if(!(Test-Path .\$($car.id)\files\scenes\tiles )) { Throw "Folder .\$($car.id)\files\scenes\tiles NOT FOUND. Did you create the tiles correctly?" }
+                if(!(Test-Path .\$($car.id)\files\scenes\scene.xml )) { Throw "File .\$($car.id)\files\scenes\scene.xml NOT FOUND. Did you create the tiles correctly?" }
+            }
         }
     }
     # Check there are no folders which don't belong to an existing panorama
-    Get-ChildItem . -Exclude .src, .no_scenes, brands, shared -Directory |
+    Get-ChildItem . -Exclude .custom, .src, .no_scenes, brands, shared -Directory |
     foreach {
         $carID = $($_.BaseName)
         $carFolder = ".src/panos/$carID.jpg"
@@ -190,7 +198,7 @@ End {
     # Check that all the car folders contain any HTML file.
     # If there isn't one, that would mean that I generated the tiles for a car, but I didn't add the details to config.xml
     # and run the script to generate the tour files
-    Get-ChildItem . -Exclude .src, .no_scenes, brands, shared -Directory |
+    Get-ChildItem . -Exclude .custom, .src, .no_scenes, brands, shared -Directory |
         foreach {
             if(!(Test-Path "$($_.FullName)/*.html")){Throw "The follwing folder doesn't contain any HTLM files: $($_.FullName)`
             This is probably because I generated the tiles but I didn't add the details to the config.xml file"}
