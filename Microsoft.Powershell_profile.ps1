@@ -23,7 +23,8 @@ foreach ($item in $pathArray) { $env:path += ';' + $item }
 if ( $Host.Name -eq "ConsoleHost" ) {
     Import-Module PSReadline
     Set-PSReadlineOption -EditMode Emacs
-    #Import-Module posh-git
+    Import-Module posh-git
+    Import-Module ISESteroids
 }
 
 #Staff only for ISE Console
@@ -31,8 +32,7 @@ if ( $Host.Name -eq "ConsoleHost" ) {
 #{
 #}
 
-Import-Module TabExpansion++
-Import-Module Go
+Import-Module TabExpansionPlusPlus
 Import-Module z
 
 # Start in my Home directory
