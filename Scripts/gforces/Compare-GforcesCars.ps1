@@ -40,7 +40,7 @@ Begin
             [Array]$tourIDArray += $renameTo
         }
     }
-# Add ignored cars
+    # Add ignored cars
     foreach ($ignoredcar in $ignoreArray) {
         [Array]$tourIDArray += $renameTo
     }
