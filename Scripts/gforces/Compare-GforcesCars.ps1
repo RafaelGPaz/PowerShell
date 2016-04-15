@@ -17,6 +17,11 @@ Begin
     # Variables
     $gforcesList = "https://s3-eu-west-1.amazonaws.com/autofs/shared/interiors/v10setup/interiors.xml"
     $config = "E:\virtual_tours\gforces\cars\.src\config.xml"
+    # Array containing all the cars to be ranamed
+    $ignoreTour = $configXml.tour.ignore.car
+    foreach ($ignoreCar in $ignoreTour) {
+        [Array]$ignoreArray += $ignoreCar.id
+    }
     [Array]$tourIDArray
     [xml]$configXml = Get-Content $config
     foreach ( $country in $configXml.tour.country ) {
@@ -34,6 +39,10 @@ Begin
             $renameTo = $($car.renameTo)
             [Array]$tourIDArray += $renameTo
         }
+    }
+# Add ignored cars
+    foreach ($ignoredcar in $ignoreArray) {
+        [Array]$tourIDArray += $renameTo
     }
     Write-Output "No of cars in config.xml --------------> $($($tourIDArray).count)"
 
