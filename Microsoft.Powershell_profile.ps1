@@ -6,7 +6,6 @@ $posh_dir = "$ENV:USERPROFILE\Documents\WindowsPowerShell"
 #--------
 $pathArray = @(
     # Apps
-    #"$env:ProgramW6432\CloudBerryLab\CloudBerry Explorer for Amazon S3\",
     "$env:ProgramW6432\KiTTY\",
     "$env:ProgramW6432\PuTTY\",
     # Posh
