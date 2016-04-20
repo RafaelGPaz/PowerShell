@@ -8,6 +8,7 @@ $pathArray = @(
     # Apps
     "$env:ProgramW6432\KiTTY\",
     "$env:ProgramW6432\PuTTY\",
+    "$($env:HOME)youtube-dl\"
     # Posh
     "$(split-path $PROFILE)\Scripts\",
     "$(split-path $PROFILE)\Scripts\gforces\",
