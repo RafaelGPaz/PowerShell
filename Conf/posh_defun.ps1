@@ -5,9 +5,10 @@ function List-DirectoryAll {Get-ChildItem -Force | Format-Table -AutoSize}
 function List-DirectoriesOnly {Get-ChildItem -Directory | Format-Table -AutoSize}
 function List-FilesOnly {Get-ChildItem -File | Format-Table -AutoSize}
 function List-DotFilesOnly {Get-ChildItem -File -Filter .* | Format-Table -AutoSize}
-function New-File {New-Item -path $($args[0]) -ItemType File | Out-Null } 
+function New-File {New-Item -path $($args[0]) -ItemType File | Out-Null }
 function New-Directory  {New-Item -path $($args[0]) -ItemType Directory | Out-Null }
 function New-Blog {pelican -s E:\websites\parallaxvirtualtours.co.uk\pelican\pelicanconf.py}
+function Open-VSCode { & code.cmd -r $args }
 
 
 # APPLICATIONS
@@ -18,7 +19,7 @@ function emc   { Invoke-Expression "C:\msys64\mingw64\bin\emacsclientw.exe -na C
 function emacs { Invoke-Expression "C:\msys64\mingw64\bin\runemacs.exe $args" }
 function vim   { & ${env:ProgramFiles(x86)}\Vim\vim74\vim.exe --remote-silent  $args }
 
-# GIT 
+# GIT
 function ga { git add }
 function gaa { git add --all }
 function gapa { git add --patch }
@@ -89,6 +90,6 @@ function Find-GforcesLatestCars {
     Shows the lastest jpg files added to the Gforces 'panos' directory
     Then I can pipelise them to "| select -last 5"
 #>
-    Get-ChildItem E:\virtual_tours\gforces\cars\*_*_*_* | 
+    Get-ChildItem E:\virtual_tours\gforces\cars\*_*_*_* |
     sort -Property LastWriteTime
 }

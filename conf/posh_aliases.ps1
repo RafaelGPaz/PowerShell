@@ -11,3 +11,4 @@ Set-Alias aws "C:\Python34\Scripts\aws.cmd"
 Set-Alias nf New-File
 Set-Alias nd New-Directory
 Set-Alias g git
+Set-Alias cod Open-VSCode
