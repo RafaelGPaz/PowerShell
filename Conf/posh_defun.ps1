@@ -78,7 +78,7 @@ function gst { git status }
 #function grr {git remote rm}
 #function gs  {git status}
 
-function Start-Pageant {Start-Process $env:ProgramW6432\putty\pageant.exe $env:HOME\.ssh\UserKeys\github.ppk}
+function Start-PageantGithub {Start-Process $env:ProgramW6432\putty\pageant.exe $env:HOME\.ssh\putty\github.ppk}
 function Edit-GitBranchDescription {$(git branch --edit-description)}
 function Get-GitBranchName {$(git rev-parse --abbrev-ref HEAD)}
 function Get-GitBranchDescription {$(git config branch.$(git rev-parse --abbrev-ref HEAD).description)}
