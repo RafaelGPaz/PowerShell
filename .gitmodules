@@ -1,6 +1,6 @@
 [submodule "Scripts/tour/New-Tour"]
 	path = Scripts/tour/New-Tour
-	url = git@github.com:rafaelgp/New-Tour.git
+	url = git@github.com:RafaelGPaz/New-Tour.git
 [submodule "Scripts/tours/New-Tour"]
 	path = Scripts/tours/New-Tour
-	url = git@github.com:rafaelgp/New-Tour.git
+	url = git@github.com:RafaelGPaz/New-Tour.git
