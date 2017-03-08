@@ -48,7 +48,7 @@ function gcl { git clone --recursive }
 function gclean { git clean -fd }
 #function gpristine { git reset --hard && git clean -dfx }
 function gcm { git checkout master }
-function gcmsg { git commit -m }
+function gcmsg { git commit -m $args}
 function gco { git checkout }
 function gcount { git shortlog -sn }
 function gcp { git cherry-pick }
