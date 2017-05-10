@@ -43,3 +43,8 @@ cd C:\Users\Rafael
 . "$(split-path $PROFILE)\Conf\posh_aliases.ps1"
 # Funtions
 . "$(split-path $PROFILE)\Conf\posh_defun.ps1"
+# Chocolatey profile
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}
