@@ -57,20 +57,20 @@ function make-tiles {
     foreach ( $tour in dir ".\.src\panos\" ) {
         Write-Verbose ('Tour: ' + $tour)
         # Check if the tour folder contains any jpg files
-        if ($(Get-ChildItem .\.src\panos\$tour\*.jpg) -eq $null) { Throw ".src\panos\ doesn't contain any panoramas" } 
+        if ($(Get-ChildItem .\.src\panos\$tour\*.jpg) -eq $null) { Throw ".src\panos\ doesn't contain any panoramas" }
         foreach ( $panoname in $(dir ".\.src\panos\$tour\*.jpg").BaseName |
         # The first RegEx removes all the numbers and then sorts the list based on just the letters and punctuation.
         # The second RegEx removes all letters and punctuation leaving just the numbers.
         # Then casts the numbers to an Integer and sorts again.
-        Sort-Object -Property {$_-replace '[\d]'},{$_-replace '[a-zA-Z\p{P}]'-as [int]} ) { 
+        Sort-Object -Property {$_-replace '[\d]'},{$_-replace '[a-zA-Z\p{P}]'-as [int]} ) {
             $panopath = Get-Item ".\.src\panos\$tour\$panoname.jpg"
             # Check if there is a folder containing the scene tiles AND it's corresponding xml file
             if((Test-Path -PathType Container ".\$tour\files\scenes\$panoname") -eq $True -and (Test-Path ".\$tour\files\scenes\$panoname.xml"))
             {
                 Write-Verbose ('  [ OK ] ' + $panoname)
             }
-            else 
-            {    
+            else
+            {
                 Write-Verbose ('  -----> Making tiles for scene: ' + $panoname)
                 check-folder -dir "$tour"
                 check-folder -dir "$tour\files"
@@ -124,21 +124,21 @@ function make-sitesurvey {
         # Check tour directory is not empty
         if ($(Get-ChildItem .\.src\panos\$tour) -eq $null) { Throw ".src\panos\ directory doesn't contain any folder" }
         Write-Verbose ('Tour: ' + $tour)
-        foreach ( $area in dir ".\.src\panos\$tour\" ) { 
+        foreach ( $area in dir ".\.src\panos\$tour\" ) {
             # Check if the area folder contains any jpg files
-            if ($(Get-ChildItem .\.src\panos\$tour\$area\*.jpg) -eq $null) { Throw ".src\panos\ doesn't contain any panoramas " } 
+            if ($(Get-ChildItem .\.src\panos\$tour\$area\*.jpg) -eq $null) { Throw ".src\panos\ doesn't contain any panoramas " }
             Write-Verbose ('  Area: ' + $area)
             foreach ( $panoname in $(dir ".\.src\panos\$tour\$area\*.jpg").BaseName |
             # The first RegEx removes all the numbers and then sorts the list based on just the letters and punctuation.
             # The second RegEx removes all letters and punctuation leaving just the numbers.
             # Then casts the numbers to an Integer and sorts again.
-            sort-object -Property {$_-replace '[\d]'},{$_-replace '[a-zA-Z\p{P}]'-as [int]} ) { 
+            sort-object -Property {$_-replace '[\d]'},{$_-replace '[a-zA-Z\p{P}]'-as [int]} ) {
                 $panopath = Get-Item ".\.src\panos\$tour\$area\$panoname.jpg"
                 if((Test-Path -PathType Container ".\files\sets\$tour\$area\$panoname") -eq $True -and (Test-Path ".\files\sets\$tour\$area\$panoname.xml"))
                 {
                     write-Verbose ('    [ OK ] ' + $panoname)
                 }
-                else 
+                else
                 {
                     Write-Verbose ('  -----> Making tiles for scene: ' + $panoname)
                     check-folder -dir "files"
@@ -150,21 +150,21 @@ function make-sitesurvey {
                     $xmlfile = "$outputfolder\$panoname.xml"
                     $custompath = '%SWFPATH%/../../files/sets/'
                     run-krpano -xmlfile $xmlfile -custompath $custompath -type "sitesurvey"
-                    Move-Item "$outputfolder\scenes\$panoname" ".\files\sets\$tour\$area\" 
-                    Move-Item -Force "$xmlfile" ".\files\sets\$tour\$area\" 
+                    Move-Item "$outputfolder\scenes\$panoname" ".\files\sets\$tour\$area\"
+                    Move-Item -Force "$xmlfile" ".\files\sets\$tour\$area\"
                     Write-Verbose '  Tiles Done'
                     # Delete output dir if exists
                     if((Test-Path -PathType Container $outputfolder) -eq $true) {
-                        Remove-Item -Recurse $outputfolder 
+                        Remove-Item -Recurse $outputfolder
                     }
                 }
-            } 
-        } 
+            }
+        }
     }
 }
 function make-gforces {
     Write-Verbose ('Running...')
-    $krconfig = "-config=$krdir\krpano_conf\templates\tv_tiles_for_cars_ipad.config"
+    $krconfig = "-config=$krdir\krpano_conf\templates\tv_tiles_for_cars_ipad_preview_1024.config"
     # Delete any residual files or folders
     Get-ChildItem -Path ".src\panos\" -Recurse -include @("output","*.kro") | foreach { Remove-Item $_.FullName -Recurse }
     # Check if the tour folder contains any jpg files
@@ -227,22 +227,22 @@ function make-clarendon {
             #Write-Verbose ('Tour: ' + $tour)
             if ($(Get-ChildItem .\.src\panos\$zone) -eq $null) { Throw ".src\panos\$zone directory doesn't contain any folder" }
             foreach ( $apartment in dir ".\.src\panos\$zone\$tour\" ) {
-                #Write-Verbose "$zone, $tour, $apartment"               
+                #Write-Verbose "$zone, $tour, $apartment"
                 # Check if the tour folder contains any jpg files
                 if ($(Get-ChildItem .\.src\panos\$zone\$tour\$apartment\*.jpg) -eq $null) { Throw ".src\panos\$zone\$tour\$apartment doesn't contain any panoramas" }
                 foreach ( $panoname in $(dir ".\.src\panos\$zone\$tour\$apartment\*.jpg").BaseName |
                 # The first RegEx removes all the numbers and then sorts the list based on just the letters and punctuation.
                 # The second RegEx removes all letters and punctuation leaving just the numbers.
                 # Then casts the numbers to an Integer and sorts again.
-                Sort-Object -Property {$_-replace '[\d]'},{$_-replace '[a-zA-Z\p{P}]'-as [int]} ) { 
+                Sort-Object -Property {$_-replace '[\d]'},{$_-replace '[a-zA-Z\p{P}]'-as [int]} ) {
                     $panopath = Get-Item ".\.src\panos\$zone\$tour\$apartment\$panoname.jpg"
                     # Check if there is a folder containing the scene tiles AND it's corresponding xml file
                     if((Test-Path -PathType Container ".\$zone\$tour\$apartment\files\scenes\$panoname") -eq $True -and (Test-Path ".\$zone\$tour\$apartment\files\scenes\$panoname.xml"))
                     {
                         Write-Verbose ('  [ OK ] ' + $zone + ' > ' + $tour + ' > ' + $apartment + ' > ' + $panoname)
                     }
-                    else 
-                    {    
+                    else
+                    {
                         Write-Verbose ('  -----> Making tiles for scene: ' + $zone + ' > ' + $tour + ' > ' + $apartment + ' > ' + $panoname)
                         check-folder -dir "$zone"
                         check-folder -dir "$zone\$tour"
@@ -277,7 +277,7 @@ $krpath = "$krdir\bin\krpanotools64.exe makepano"
 if((Test-Path -PathType Container .src) -eq $false) { Throw ".src\ folder doesn't exist" }
 if((Test-Path -PathType Container .\.src\panos) -eq $false) { Throw ".src\panos folder doesn't exist" }
 
-# Choose config file    
+# Choose config file
 $title = "Virtual tour type"
 $message = "Choose which virtuar tour type you want to crate the tiles:"
 
@@ -295,8 +295,8 @@ $five = New-Object System.Management.Automation.Host.ChoiceDescription "&Clarend
     "Clarendon"
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($one, $two, $three, $four, $five)
 
-$result = $host.ui.PromptForChoice($title, $message, $options, 1) 
-    
+$result = $host.ui.PromptForChoice($title, $message, $options, 1)
+
 Switch( $result ){
     0{ make-twolevels }
     1{ make-threelevels }
