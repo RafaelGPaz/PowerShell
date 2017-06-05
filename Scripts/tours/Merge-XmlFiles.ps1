@@ -1,4 +1,4 @@
-﻿<#
+<#
 .DESCRIPTION
     Create tour.xml file for each tour folder in the current directory
     
@@ -25,9 +25,10 @@ Begin {
     $ErrorActionPreference = "Stop"
     $krVersion = "1.18"
     $dir = $pwd
+    $excludeDirs = ".custom", ".src", ".no_scenes", "brands", "shared", "local_usage_flash", "localusage", "local_usage", ".archives"
     if(!(Test-Path -Path "$dir\.src")) { Throw "There is no '.src' directory. Are you in the right directory?" }
     Write-Verbose "Checking files and folders...."
-    foreach ( $tour in $(Get-ChildItem "$dir" -Exclude ".custom", ".src", ".no_scenes", "brands", "shared" -Directory) ) {
+    foreach ( $tour in $(Get-ChildItem "$dir" -Exclude $excludeDirs -Directory) ) {
         if(!(Get-ChildItem "$dir\.src\panos\$($tour.BaseName)\*.jpg" )) { Throw "There are no JPG panoramos in the directory '.src/panos'" }
         [Array]$toursArray += $tour
         foreach ( $scene in $(Get-ChildItem "$dir\.src\panos\$($tour.BaseName)\*.jpg")) {
@@ -38,7 +39,7 @@ Begin {
         }
     }
      # Check there aren't folders or files which don't belong to an existing panorama
-    foreach ( $tour in $(Get-ChildItem "$dir" -Exclude ".custom", ".src", ".no_scenes", "brands", "shared" -Directory) ) {
+    foreach ( $tour in $(Get-ChildItem "$dir" -Exclude $excludeDirs -Directory) ) {
         foreach ( $scene in $(Get-ChildItem "$dir\$($tour.BaseName)\files\scenes\" -Directory )) {
             if(!(Test-Path ".src\panos\$($tour.BaseName)\$($scene.BaseName).jpg" )) {
                 throw "The following folder is obsolete: '.\$($tour.BaseName)\files\scenes\$($scene.BaseName)'"
