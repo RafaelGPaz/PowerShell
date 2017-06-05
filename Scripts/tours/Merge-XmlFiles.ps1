@@ -1,15 +1,15 @@
-<#
+﻿<#
 .DESCRIPTION
     Create tour.xml file for each tour folder in the current directory
-    
+
     tour.xml merge all the XML files contained in:
     1- './tour/files/content/*.xml'
     2- './shared/include/*/index.xml' directory if exists
     3- './tour/files/include/*/index.xml'
     4- './tour/files/scenes/*.xml'
-    
+
     Run the script from the same directory than the folder '.src'
-    
+
 #>
 [CmdletBinding()]
 Param (
@@ -49,9 +49,9 @@ Begin {
             if(!(Test-Path ".src\panos\$($tour.BaseName)\$($scene.BaseName).jpg" )) {
                 throw "The following file is obsolete: '.\$($tour.BaseName)\files\scenes\$($scene.BaseName).xml'"
             }
-        }   
+        }
     }
-    
+
     function Clean-TourXml ($selectedFolder) {
         foreach ($xmlFile in $selectedFolder) {
             Get-Content $xmlFile |
@@ -85,7 +85,7 @@ Process {
                 foreach ($xmlFile in $(Get-ChildItem "$dir\shared\plugins\*.xml" )) {
                     Write-Verbose "    [ OK ] $($xmlFile.Directory.Basename)/$($xmlFile.BaseName).xml"
                     $pluginsFolder = $xmlFile
-                    Clean-TourXml $pluginsFolder             
+                    Clean-TourXml $pluginsFolder
                 }
             }
         }
@@ -96,7 +96,7 @@ Process {
                 foreach ($xmlFile in $(Get-ChildItem "$dir\$($tour.BaseName)\files\plugins\*.xml" )) {
                     Write-Verbose "    [ OK ] $($xmlFile.Directory.Basename)/$($xmlFile.BaseName).xml"
                     $pluginsFolder = $xmlFile
-                    Clean-TourXml $pluginsFolder             
+                    Clean-TourXml $pluginsFolder
                 }
             }
         }
@@ -113,7 +113,7 @@ Process {
                 foreach ($xmlFile in $(Get-ChildItem "$dir\shared\include\*\*.xml" -Exclude coordfinder, editor_and_options)) {
                     Write-Verbose "    [ OK ] $($xmlFile.Directory.Basename)/$($xmlFile.BaseName).xml"
                     $includeFolder = $xmlFile
-                    Clean-TourXml $includeFolder             
+                    Clean-TourXml $includeFolder
                 }
             }
         }
@@ -124,17 +124,17 @@ Process {
                 foreach ($xmlFile in $(Get-ChildItem "$dir\$($tour.BaseName)\files\include\*\*.xml" -Exclude coordfinder, editor_and_options)) {
                     Write-Verbose "    [ OK ] $($xmlFile.Directory.Basename)/$($xmlFile.BaseName).xml"
                     $includeFolder = $xmlFile
-                    Clean-TourXml $includeFolder             
+                    Clean-TourXml $includeFolder
                 }
             }
         }
-        # SCENES        
+        # SCENES
         if (Get-ChildItem "$dir\$($tour.BaseName)\files\scenes\*.xml") {
             Write-Verbose "    SCENES:"
             foreach ($xmlFile in $(Get-ChildItem "$dir\$($tour.BaseName)\files\scenes\*.xml")) {
                 Write-Verbose "    [ OK ] $($xmlFile.Directory.Basename)/$($xmlFile.BaseName).xml"
                 $scenesFolder = $xmlFile
-                Clean-TourXml $scenesFolder             
+                Clean-TourXml $scenesFolder
             }
         }
         Add-Content $tourFile '</krpano>'
