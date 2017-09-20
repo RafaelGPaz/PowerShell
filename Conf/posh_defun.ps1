@@ -93,3 +93,20 @@ function Find-GforcesLatestCars {
     Get-ChildItem E:\virtual_tours\gforces\cars\*_*_*_* |
     sort -Property LastWriteTime
 }
+
+function Rename-OptizillaFiles {
+<#
+.DESCRIPTION
+    Rename optimized files downloaded from Optizill.com removing the string "-min"
+    Run the script inside th folder containing the images
+#>
+    [CmdletBinding()]
+
+    $VerbosePreference = "Continue"
+
+        Clear-Host
+        Write-Verbose "Starting..."
+        Get-ChildItem -Filter "*-min*" |
+        Rename-Item -NewName { $_.Name -replace '-min',''} -Verbose
+        Write-Verbose "EOF"
+}
