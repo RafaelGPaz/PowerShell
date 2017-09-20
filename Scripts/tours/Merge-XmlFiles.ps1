@@ -25,10 +25,11 @@ Begin {
     $ErrorActionPreference = "Stop"
     $krVersion = "1.18"
     $dir = $pwd
-    $excludeDirs = ".custom", ".src", ".no_scenes", "brands", "shared", "local_usage_flash", "localusage", "local_usage", ".archives"
+    $excludeDirs = ".*", "brands", "shared", "local_usage_flash", "localusage", "local_usage"
+    $dirs = Get-ChildItem -Path $pwd -Exclude $excludeDirs -Directory
     if(!(Test-Path -Path "$dir\.src")) { Throw "There is no '.src' directory. Are you in the right directory?" }
     Write-Verbose "Checking files and folders...."
-    foreach ( $tour in $(Get-ChildItem "$dir" -Exclude $excludeDirs -Directory) ) {
+    foreach ( $tour in $dirs ) {
         if(!(Get-ChildItem "$dir\.src\panos\$($tour.BaseName)\*.jpg" )) { Throw "There are no JPG panoramos in the directory '.src/panos'" }
         [Array]$toursArray += $tour
         foreach ( $scene in $(Get-ChildItem "$dir\.src\panos\$($tour.BaseName)\*.jpg")) {
